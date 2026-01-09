@@ -1,329 +1,165 @@
 <!doctype html>
-<html lang="en" class="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>SCS — Coming Soon</title>
-    <meta name="description" content="Spiess Consulting & Solutions — Coming soon." />
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>SCS — Coming soon</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Font: Montserrat Variable (Google Fonts) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:opsz,wght@14..144,200..800&display=swap"
-      rel="stylesheet"
-    />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
-    <!-- Corporate Design Tokens (verbatim, as provided) -->
-    <style>
-      :root {
-        --aw-font-sans: "Montserrat Variable", sans-serif;
-        --aw-font-serif: "Montserrat Variable", sans-serif;
-        --aw-font-heading: "Montserrat Variable", sans-serif;
+  <style>
+    :root {
+      --bg: #0b0d12;
+      --bg-panel: #0f1220;
+      --fg: #e7eaf0;
+      --muted: #9aa1b8;
+      --accent: #5f7cff;
+    }
 
-        /* === Light Mode === */
-        --aw-color-primary: rgb(255, 94, 0);
-        --aw-color-secondary: rgb(0, 102, 102);
-        --aw-color-accent: rgb(255, 140, 0);
+    * { box-sizing: border-box; }
 
-        --aw-color-bg-page: #ffffff;
-        --aw-color-bg-widget: #f5f5f5;
-        --aw-color-bg-widget-hover: #eeeeee;
-        --aw-color-bg-widget-active: #e0e0e0;
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: var(--bg);
+      font-family: Inter, system-ui, sans-serif;
+      color: var(--fg);
+      overflow: hidden;
+    }
 
-        --aw-color-bg-widget-border: #cccccc;
-        --aw-color-bg-widget-border-hover: #bbbbbb;
-        --aw-color-bg-widget-border-active: #aaaaaa;
-        --aw-color-bg-widget-border-focus: #999999;
+    /* ---------- ENTRY GATE PANEL ---------- */
+    .gate {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(
+        110deg,
+        #0c0f1c 0%,
+        #121634 45%,
+        #0b0d12 100%
+      );
+      transform: translateX(0);
+      animation: gate-exit 2.2s cubic-bezier(.22,.8,.25,1) 1.4s forwards;
+      z-index: 10;
+    }
 
-        --aw-color-text-heading: #000;
-        --aw-color-text-default: #101010;
-        --aw-color-text-muted: rgba(16, 16, 16, 0.66);
-      }
+    @keyframes gate-exit {
+      to { transform: translateX(-140vw); }
+    }
 
-      ::selection {
-        background-color: var(--aw-color-primary);
-        color: white;
-      }
+    /* ---------- CONTENT ---------- */
+    main {
+      height: 100%;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
 
-      .dark {
-        --aw-font-sans: "Montserrat Variable", sans-serif;
-        --aw-font-serif: "Montserrat Variable", sans-serif;
-        --aw-font-heading: "Montserrat Variable", sans-serif;
+    .stack {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 22px;
+      opacity: 0;
+      animation: fade-in 0.8s ease-out 0.8s forwards;
+    }
 
-        /* === Dark Mode === */
-        --aw-color-primary: #f57c00;
-        --aw-color-secondary: #0a6678;
-        --aw-color-tertiary: #0fb472;
-        --aw-color-accent: #ff8c00;
+    @keyframes fade-in {
+      to { opacity: 1; }
+    }
 
-        --aw-color-bg-page: #0d0d0d;
-        --aw-color-bg-widget: #161616;
-        --aw-color-bg-widget-hover: #1f1f1f;
-        --aw-color-bg-widget-active: #2a2a2a;
+    .brand {
+      letter-spacing: 0.32em;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
 
-        --aw-color-bg-widget-border: #2c2c2c;
-        --aw-color-bg-widget-border-hover: #3a3a3a;
-        --aw-color-bg-widget-border-active: #4a4a4a;
-        --aw-color-bg-widget-border-focus: #5a5a5a;
+    .type {
+      font-size: clamp(1.4rem, 3vw, 2.4rem);
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 2px solid var(--accent);
+      animation:
+        typing 2.6s steps(24) 1.1s forwards,
+        caret 1s step-end infinite;
+      width: 0;
+    }
 
-        --aw-color-bg-subtleui: #3a3a3a;
+    @keyframes typing {
+      to { width: 100%; }
+    }
 
-        --aw-color-text-heading: #f7f8f8;
-        --aw-color-text-default: #e5ecf6;
-        --aw-color-text-muted: rgba(229, 236, 246, 0.66);
-      }
+    @keyframes caret {
+      50% { border-color: transparent; }
+    }
 
-      /* ===================== Page styles ===================== */
-      * {
-        box-sizing: border-box;
-      }
+    /* ---------- CROSSHAIR LOADER ---------- */
+    .crosshair {
+      width: 26px;
+      height: 26px;
+      position: relative;
+      border: 1px solid var(--accent);
+      animation: spin 3s linear infinite;
+      margin-top: 6px;
+    }
 
-      html,
-      body {
-        height: 100%;
-      }
+    .crosshair::before,
+    .crosshair::after {
+      content: "";
+      position: absolute;
+      background: var(--accent);
+    }
 
-      body {
-        margin: 0;
-        font-family: var(--aw-font-sans);
-        background: var(--aw-color-bg-page);
-        color: var(--aw-color-text-default);
-        overflow: hidden;
-      }
+    .crosshair::before {
+      height: 1px;
+      width: 100%;
+      top: 50%;
+      left: 0;
+    }
 
-      /* Subtle grid + glow using your tokens (kept understated) */
-      .bg {
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        background:
-          radial-gradient(900px 500px at 50% -10%, color-mix(in srgb, var(--aw-color-secondary) 22%, transparent), transparent 70%),
-          radial-gradient(700px 500px at 80% 20%, color-mix(in srgb, var(--aw-color-primary) 14%, transparent), transparent 72%),
-          radial-gradient(900px 600px at 20% 85%, color-mix(in srgb, var(--aw-color-accent) 10%, transparent), transparent 74%);
-      }
+    .crosshair::after {
+      width: 1px;
+      height: 100%;
+      left: 50%;
+      top: 0;
+    }
 
-      .grid {
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        opacity: 0.22;
-        background-image:
-          linear-gradient(to right, color-mix(in srgb, var(--aw-color-bg-widget-border) 55%, transparent) 1px, transparent 1px),
-          linear-gradient(to bottom, color-mix(in srgb, var(--aw-color-bg-widget-border) 55%, transparent) 1px, transparent 1px);
-        background-size: 64px 64px;
-        mask-image: radial-gradient(circle at 50% 40%, black 0 55%, transparent 78%);
-      }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
 
-      .wrap {
-        position: relative;
-        height: 100%;
-        display: grid;
-        place-items: center;
-        padding: 24px;
-      }
+    /* subtle background glow */
+    .glow {
+      position: absolute;
+      width: 900px;
+      height: 500px;
+      background: radial-gradient(
+        ellipse at center,
+        rgba(95,124,255,0.12),
+        transparent 70%
+      );
+      filter: blur(40px);
+      z-index: 0;
+    }
+  </style>
+</head>
 
-      .card {
-        width: min(920px, 92vw);
-        padding: clamp(22px, 4vw, 46px);
-        background: color-mix(in srgb, var(--aw-color-bg-widget) 88%, transparent);
-        border: 1px solid var(--aw-color-bg-widget-border);
-        border-radius: 22px;
-        box-shadow:
-          0 20px 60px rgba(0, 0, 0, 0.45),
-          inset 0 1px 0 rgba(255, 255, 255, 0.04);
-        text-align: center;
-        backdrop-filter: blur(10px);
-      }
+<body>
+  <div class="gate"></div>
 
-      .kicker {
-        font-size: 12px;
-        letter-spacing: 0.26em;
-        text-transform: uppercase;
-        color: var(--aw-color-text-muted);
-        margin: 0 0 16px;
-      }
+  <main>
+    <div class="glow"></div>
 
-      .headline {
-        font-family: var(--aw-font-heading);
-        font-size: clamp(26px, 4.2vw, 46px);
-        font-weight: 650;
-        letter-spacing: -0.02em;
-        color: var(--aw-color-text-heading);
-        margin: 0;
-        line-height: 1.05;
-      }
-
-      .row {
-        margin-top: 22px;
-        display: inline-flex;
-        align-items: center;
-        gap: 16px;
-        justify-content: center;
-        flex-wrap: wrap;
-      }
-
-      /* Typewriter */
-      .typewriter {
-        font-family: var(--aw-font-heading);
-        font-size: clamp(14px, 1.6vw, 18px);
-        font-weight: 520;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        color: var(--aw-color-text-default);
-        display: inline-block;
-        white-space: nowrap;
-        overflow: hidden;
-        border-right: 2px solid var(--aw-color-primary);
-        padding-right: 6px;
-      }
-
-      .sub {
-        margin-top: 18px;
-        font-size: 14px;
-        color: var(--aw-color-text-muted);
-      }
-
-      /* Crosshair Loader */
-      .loader {
-        width: 28px;
-        height: 28px;
-        border-radius: 10px;
-        border: 1px solid color-mix(in srgb, var(--aw-color-primary) 70%, var(--aw-color-bg-widget-border));
-        position: relative;
-        display: inline-block;
-        transform-origin: 50% 50%;
-        animation: spin 1.6s linear infinite;
-        box-shadow:
-          0 0 0 4px color-mix(in srgb, var(--aw-color-primary) 10%, transparent),
-          0 0 28px color-mix(in srgb, var(--aw-color-primary) 18%, transparent);
-      }
-
-      .loader::before,
-      .loader::after {
-        content: "";
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        background: color-mix(in srgb, var(--aw-color-primary) 78%, white 0%);
-        opacity: 0.95;
-      }
-
-      .loader::before {
-        width: 18px;
-        height: 1px;
-      }
-
-      .loader::after {
-        width: 1px;
-        height: 18px;
-      }
-
-      .loader i {
-        position: absolute;
-        inset: 6px;
-        border-radius: 8px;
-        border: 1px solid color-mix(in srgb, var(--aw-color-secondary) 42%, transparent);
-        opacity: 0.55;
-      }
-
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
-        }
-      }
-
-      /* Reduced motion */
-      @media (prefers-reduced-motion: reduce) {
-        .loader {
-          animation: none;
-        }
-      }
-
-      /* Small footer hint */
-      .hint {
-        margin-top: 18px;
-        font-size: 12px;
-        color: var(--aw-color-text-muted);
-      }
-
-      .hint a {
-        color: color-mix(in srgb, var(--aw-color-primary) 80%, white 0%);
-        text-decoration: none;
-        border-bottom: 1px solid color-mix(in srgb, var(--aw-color-primary) 40%, transparent);
-      }
-      .hint a:hover {
-        border-bottom-color: color-mix(in srgb, var(--aw-color-primary) 70%, transparent);
-      }
-    </style>
-  </head>
-
-  <body>
-    <div class="bg"></div>
-    <div class="grid"></div>
-
-    <div class="wrap">
-      <section class="card" aria-label="SCS Coming Soon">
-        <p class="kicker">SCS · Enablement · Consulting · Solutions</p>
-
-        <h1 class="headline">Spiess Consulting &amp; Solutions</h1>
-
-        <div class="row" aria-live="polite">
-          <span id="tw" class="typewriter"></span>
-          <span class="loader" aria-label="Loading">
-            <i aria-hidden="true"></i>
-          </span>
-        </div>
-
-        <div class="sub">Coming soon.</div>
-
-        <div class="hint">
-          <span>Contact: </span>
-          <a href="mailto:hello@scs.pro">hello@scs.pro</a>
-        </div>
-      </section>
+    <div class="stack">
+      <div class="brand">SCS</div>
+      <div class="type">Coming&nbsp;soon</div>
+      <div class="crosshair"></div>
     </div>
-
-    <script>
-      // Typewriter: deterministic, lightweight, no dependencies
-      (function () {
-        const el = document.getElementById("tw");
-        const text = "Coming soon";
-        const startDelayMs = 450;
-        const charDelayMs = 55;
-        const holdMs = 1400;
-        const deleteDelayMs = 22;
-
-        let i = 0;
-        let deleting = false;
-
-        function tick() {
-          if (!el) return;
-
-          if (!deleting) {
-            i++;
-            el.textContent = text.slice(0, i);
-            if (i >= text.length) {
-              deleting = true;
-              setTimeout(tick, holdMs);
-              return;
-            }
-            setTimeout(tick, charDelayMs);
-          } else {
-            i--;
-            el.textContent = text.slice(0, Math.max(0, i));
-            if (i <= 0) {
-              deleting = false;
-              setTimeout(tick, 520);
-              return;
-            }
-            setTimeout(tick, deleteDelayMs);
-          }
-        }
-
-        setTimeout(tick, startDelayMs);
-      })();
-    </script>
-  </body>
+  </main>
+</body>
 </html>
