@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en" class="dark">
   <head>
@@ -27,13 +28,8 @@
 
         --aw-color-bg-page: #ffffff;
         --aw-color-bg-widget: #f5f5f5;
-        --aw-color-bg-widget-hover: #eeeeee;
-        --aw-color-bg-widget-active: #e0e0e0;
 
         --aw-color-bg-widget-border: #cccccc;
-        --aw-color-bg-widget-border-hover: #bbbbbb;
-        --aw-color-bg-widget-border-active: #aaaaaa;
-        --aw-color-bg-widget-border-focus: #999999;
 
         --aw-color-text-heading: #000;
         --aw-color-text-default: #101010;
@@ -51,28 +47,21 @@
         --aw-font-heading: "Montserrat Variable", sans-serif;
 
         --aw-color-primary: #f57c00;
-        --aw-color-secondary: #0a6678; /* intentionally not used in background */
+        --aw-color-secondary: #0a6678; /* not used for background */
         --aw-color-tertiary: #0fb472;
         --aw-color-accent: #ff8c00;
 
         --aw-color-bg-page: #0d0d0d;
         --aw-color-bg-widget: #161616;
-        --aw-color-bg-widget-hover: #1f1f1f;
-        --aw-color-bg-widget-active: #2a2a2a;
 
         --aw-color-bg-widget-border: #2c2c2c;
-        --aw-color-bg-widget-border-hover: #3a3a3a;
-        --aw-color-bg-widget-border-active: #4a4a4a;
-        --aw-color-bg-widget-border-focus: #5a5a5a;
-
-        --aw-color-bg-subtleUI: #3a3a3a;
 
         --aw-color-text-heading: #f7f8f8;
         --aw-color-text-default: #e5ecf6;
         --aw-color-text-muted: rgba(229, 236, 246, 0.66);
       }
 
-      /* ===================== Reset / base ===================== */
+      /* ===================== Base ===================== */
       * { box-sizing: border-box; }
       html, body { height: 100%; }
       body {
@@ -83,31 +72,54 @@
         overflow: hidden;
       }
 
-      /* ===================== Background: neutral, grayscale ===================== */
+      /* ===================== Full-page background (bg-page + glass) ===================== */
       .bg {
         position: fixed;
         inset: 0;
         pointer-events: none;
+        /* Neutral grayscale atmosphere (no blue/petrol) */
         background:
-          radial-gradient(1100px 700px at 50% -25%, rgba(255,255,255,0.06), transparent 60%),
-          radial-gradient(900px 600px at 20% 85%, rgba(255,255,255,0.035), transparent 60%),
-          radial-gradient(850px 520px at 85% 25%, rgba(255,255,255,0.03), transparent 58%);
+          radial-gradient(1200px 720px at 50% -30%, rgba(255,255,255,0.06), transparent 60%),
+          radial-gradient(900px 620px at 15% 85%, rgba(255,255,255,0.035), transparent 62%),
+          radial-gradient(820px 560px at 88% 25%, rgba(255,255,255,0.03), transparent 58%);
       }
 
       .grid {
         position: fixed;
         inset: 0;
         pointer-events: none;
-        opacity: 0.20;
+        opacity: 0.18;
         background-image:
           linear-gradient(to right, rgba(255,255,255,0.06) 1px, transparent 1px),
           linear-gradient(to bottom, rgba(255,255,255,0.06) 1px, transparent 1px);
-        background-size: 72px 72px;
-        mask-image: radial-gradient(circle at 50% 40%, black 0 56%, transparent 80%);
+        background-size: 80px 80px;
+        mask-image: radial-gradient(circle at 50% 42%, black 0 56%, transparent 80%);
       }
 
-      /* ===================== EntryGate-like panel geometry ===================== */
-      .stage {
+      /* “EntryGate-ish” glass wash over the whole page (very subtle) */
+      .glassWash {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background:
+          linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.00) 55%),
+          linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00) 35%, rgba(255,255,255,0.02));
+        opacity: 0.9;
+      }
+
+      /* Film grain (optional, subtle) */
+      .grain {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.06;
+        background-image:
+          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.65'/%3E%3C/svg%3E");
+        mix-blend-mode: overlay;
+      }
+
+      /* ===================== Layout ===================== */
+      .wrap {
         position: relative;
         height: 100%;
         display: grid;
@@ -115,193 +127,164 @@
         padding: 24px;
       }
 
-      .panel {
-        /* subtle skewed slab like your EntryGate */
-        width: min(980px, 92vw);
-        min-height: 320px;
-        border-radius: 22px;
-
-        background-color: #0b0d10;
-        background-image: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.00));
-
-        box-shadow: 0 22px 90px rgba(0,0,0,0.40), inset 0 0 0 1px rgba(255,255,255,0.07);
-        position: relative;
-        overflow: hidden;
-
-        transform: skewX(-7deg);
-        transform-origin: left top;
-      }
-
-      /* content un-skew */
-      .panel__content {
-        height: 100%;
-        padding: clamp(26px, 4vw, 56px);
-        display: grid;
-        place-items: center;
-        text-align: center;
-
-        transform: skewX(7deg) translateX(52px);
-        transform-origin: center;
-      }
-
-      /* Right edge treatment (hairlines + glow) inspired by your code */
-      .edge {
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-        opacity: 0.95;
-      }
-      .edge .hairline-outer {
-        position: absolute;
-        top: 0;
-        right: 0;
-        height: 100%;
-        width: 1px;
-        background: rgba(255,255,255,0.18);
-      }
-      .edge .hairline-inner {
-        position: absolute;
-        top: 0;
-        right: 10px;
-        height: 100%;
-        width: 1px;
-        background: rgba(255,255,255,0.10);
-      }
-      .edge .glow {
-        position: absolute;
-        top: -10vh;
-        right: -7px;
-        width: 14px;
-        height: 120vh;
-        background: rgba(255,255,255,0.10);
-        filter: blur(10px);
-        opacity: 0.35;
-      }
-      .edge .fade {
-        position: absolute;
-        top: 0;
-        right: 2px;
-        height: 100%;
-        width: 3px;
-        background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.00));
-        opacity: 0.45;
-      }
-      .edge .shadowCut {
-        position: absolute;
-        top: 0;
-        right: 0;
-        height: 100%;
-        width: 10px;
-        background: linear-gradient(90deg, rgba(0,0,0,0.22), rgba(0,0,0,0.00));
-        opacity: 0.55;
-      }
-
-      /* ===================== Typewriter ===================== */
       .stack {
         display: grid;
-        gap: 16px;
         place-items: center;
+        gap: 14px;
+        text-align: center;
       }
 
-      .tw {
+      .logo {
+        width: 54px;
+        height: 54px;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+
+        /* Placeholder glass tile; replace with your real logo via <img> */
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.10);
+        box-shadow:
+          0 18px 70px rgba(0,0,0,0.55),
+          inset 0 1px 0 rgba(255,255,255,0.05);
+        backdrop-filter: blur(10px);
+      }
+
+      .logo span {
+        font-weight: 650;
+        letter-spacing: 0.06em;
+        color: rgba(255,255,255,0.85);
+        font-size: 12px;
+      }
+
+      /* If you have a logo file, use this instead:
+         <img class="logoImg" src="logo.svg" alt="SCS" />
+      */
+      .logoImg {
+        width: 54px;
+        height: 54px;
+        object-fit: contain;
+        opacity: 0.95;
+        filter: drop-shadow(0 14px 40px rgba(0,0,0,0.55));
+      }
+
+      .line {
         display: inline-block;
         white-space: nowrap;
         overflow: hidden;
-        border-right: 2px solid rgba(245,124,0,0.40); /* minimal primary */
-        padding-right: 6px;
+        padding-right: 8px;
+        border-right: 2px solid rgba(245,124,0,0.40); /* minimal primary cursor */
       }
 
-      .title {
+      h1 {
+        margin: 0;
         font-family: var(--aw-font-heading);
-        font-size: clamp(26px, 4.2vw, 48px);
+        font-size: clamp(26px, 4.2vw, 52px);
         font-weight: 650;
         letter-spacing: -0.02em;
         color: rgba(247,248,248,0.98);
-        line-height: 1.05;
-        margin: 0;
+        line-height: 1.06;
       }
 
-      .coming {
+      .sub {
+        margin: 0;
         font-family: var(--aw-font-heading);
         font-size: clamp(14px, 1.6vw, 18px);
         font-weight: 520;
-        letter-spacing: 0.12em;
+        letter-spacing: 0.14em;
         text-transform: uppercase;
-        color: rgba(229, 236, 246, 0.70);
-        margin: 0;
+        color: rgba(229, 236, 246, 0.72);
       }
 
-      /* ===================== BF6/Palantir-ish loader ===================== */
+      /* ===================== Premium loader (BF6/Palantir-ish) ===================== */
       .loaderWrap {
         margin-top: 12px;
         display: grid;
         place-items: center;
+        min-height: 96px;
       }
 
-      .hud {
-        width: 78px;
-        height: 78px;
+      .loader {
+        --s: 82px;
+        width: var(--s);
+        height: var(--s);
         position: relative;
         border-radius: 999px;
-        /* base rings in gray */
-        background:
-          radial-gradient(circle at 50% 50%, transparent 57%, rgba(255,255,255,0.10) 58%, rgba(255,255,255,0.10) 60%, transparent 61%),
-          radial-gradient(circle at 50% 50%, transparent 67%, rgba(255,255,255,0.06) 68%, transparent 70%);
-        box-shadow:
-          0 0 0 1px rgba(255,255,255,0.08),
-          0 0 28px rgba(0,0,0,0.55);
-        animation: spin 1.6s linear infinite;
+        opacity: 0;
+        transform: translateY(6px) scale(0.96);
+        filter: drop-shadow(0 22px 60px rgba(0,0,0,0.55));
       }
 
-      /* minimal primary arc */
-      .hud::before {
+      /* Base ring + segmented HUD ring */
+      .loader::before {
         content: "";
         position: absolute;
-        inset: -2px;
+        inset: 0;
         border-radius: 999px;
-        background: conic-gradient(
-          from 0deg,
-          transparent 0 315deg,
-          rgba(245,124,0,0.70) 330deg 346deg,
-          transparent 360deg
-        );
-        mask: radial-gradient(circle, transparent 56%, black 57%, black 69%, transparent 70%);
-        filter: blur(0.2px);
+
+        /* 1) subtle base rings
+           2) segmented ring via repeating-conic-gradient */
+        background:
+          radial-gradient(circle at 50% 50%, transparent 56%, rgba(255,255,255,0.10) 57%, rgba(255,255,255,0.10) 59%, transparent 60%),
+          radial-gradient(circle at 50% 50%, transparent 67%, rgba(255,255,255,0.06) 68%, transparent 70%),
+          repeating-conic-gradient(
+            from 0deg,
+            rgba(255,255,255,0.18) 0deg 6deg,
+            rgba(255,255,255,0.00) 6deg 14deg
+          );
+
+        /* mask segments to live in a ring band */
+        -webkit-mask: radial-gradient(circle, transparent 0 60%, black 61%, black 76%, transparent 77%);
+        mask: radial-gradient(circle, transparent 0 60%, black 61%, black 76%, transparent 77%);
+
+        opacity: 0.9;
       }
 
-      /* scanning wedge (gray) with its own cadence */
-      .hud::after {
+      /* Scanning wedge (neutral), and a minimal primary accent arc */
+      .loader::after {
         content: "";
         position: absolute;
         inset: 8px;
         border-radius: 999px;
-        background: conic-gradient(
-          from 0deg,
-          rgba(255,255,255,0.00) 0deg,
-          rgba(255,255,255,0.13) 24deg,
-          rgba(255,255,255,0.00) 52deg,
-          rgba(255,255,255,0.00) 360deg
-        );
-        opacity: 0.78;
+        background:
+          /* primary micro-arc */
+          conic-gradient(
+            from 0deg,
+            transparent 0 318deg,
+            rgba(245,124,0,0.75) 334deg 348deg,
+            transparent 360deg
+          ),
+          /* scanner wedge */
+          conic-gradient(
+            from 0deg,
+            rgba(255,255,255,0.00) 0deg,
+            rgba(255,255,255,0.14) 22deg,
+            rgba(255,255,255,0.00) 54deg,
+            rgba(255,255,255,0.00) 360deg
+          );
+
+        /* keep it inside */
+        -webkit-mask: radial-gradient(circle, transparent 0 52%, black 53%, black 83%, transparent 84%);
+        mask: radial-gradient(circle, transparent 0 52%, black 53%, black 83%, transparent 84%);
+
+        opacity: 0.85;
         animation: sweep 1.05s ease-in-out infinite;
       }
 
-      .ticks { position: absolute; inset: 0; border-radius: 999px; }
-      .tick {
+      /* Center crosshair lines (very thin) */
+      .crossX,
+      .crossY {
         position: absolute;
         left: 50%;
         top: 50%;
-        width: 1px;
-        height: 11px;
-        background: rgba(255,255,255,0.22);
-        transform-origin: 0 0;
+        background: rgba(255,255,255,0.16);
+        transform: translate(-50%, -50%);
       }
-      .tick.t1 { transform: translate(-50%, -41px) rotate(0deg); }
-      .tick.t2 { transform: translate(30px, -50%) rotate(90deg); }
-      .tick.t3 { transform: translate(-50%, 30px) rotate(180deg); }
-      .tick.t4 { transform: translate(-41px, -50%) rotate(270deg); }
+      .crossX { width: 28px; height: 1px; }
+      .crossY { width: 1px; height: 28px; }
 
-      .center {
+      /* small center dot (minimal primary) */
+      .dot {
         position: absolute;
         left: 50%;
         top: 50%;
@@ -310,26 +293,57 @@
         border-radius: 999px;
         transform: translate(-50%, -50%);
         background: rgba(245,124,0,0.45);
-        box-shadow: 0 0 16px rgba(245,124,0,0.10);
+        box-shadow: 0 0 18px rgba(245,124,0,0.10);
+        opacity: 0.9;
+      }
+
+      /* Outer ticks (BF6 vibe) */
+      .tick {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 1px;
+        height: 10px;
+        background: rgba(255,255,255,0.22);
+        transform-origin: 0 0;
+      }
+      .tick.t1 { transform: translate(-50%, -44px) rotate(0deg); }
+      .tick.t2 { transform: translate(33px, -50%) rotate(90deg); }
+      .tick.t3 { transform: translate(-50%, 33px) rotate(180deg); }
+      .tick.t4 { transform: translate(-44px, -50%) rotate(270deg); }
+
+      /* Running state: slow rotation on whole unit */
+      .loader.is-running {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        animation: spin 1.6s linear infinite;
+      }
+
+      /* Entry animation for loader (once) */
+      @keyframes loaderIn {
+        0%   { opacity: 0; transform: translateY(10px) scale(0.94); }
+        65%  { opacity: 1; transform: translateY(0) scale(1.02); }
+        100% { opacity: 1; transform: translateY(0) scale(1); }
       }
 
       @keyframes spin { to { transform: rotate(360deg); } }
       @keyframes sweep {
-        0%   { transform: rotate(-10deg); opacity: 0.40; }
-        50%  { transform: rotate(22deg); opacity: 0.90; }
-        100% { transform: rotate(-10deg); opacity: 0.40; }
+        0%   { transform: rotate(-12deg); opacity: 0.40; }
+        50%  { transform: rotate(22deg); opacity: 0.95; }
+        100% { transform: rotate(-12deg); opacity: 0.40; }
       }
 
       @media (prefers-reduced-motion: reduce) {
-        .hud, .hud::after { animation: none; }
-        .tw { border-right: none; }
+        .grid, .grain { display: none; }
+        .loader, .loader::after { animation: none !important; }
+        .line { border-right: none; }
       }
 
-      /* Optional contact line */
+      /* Optional hint */
       .hint {
-        margin-top: 16px;
+        margin-top: 18px;
         font-size: 12px;
-        color: rgba(229, 236, 246, 0.58);
+        color: rgba(229,236,246,0.58);
       }
       .hint a {
         color: rgba(245,124,0,0.78);
@@ -343,113 +357,88 @@
   <body>
     <div class="bg"></div>
     <div class="grid"></div>
+    <div class="glassWash"></div>
+    <div class="grain"></div>
 
-    <main class="stage" aria-label="SCS Coming Soon">
-      <section class="panel">
-        <div class="edge" aria-hidden="true">
-          <div class="hairline-outer"></div>
-          <div class="hairline-inner"></div>
-          <div class="glow"></div>
-          <div class="fade"></div>
-          <div class="shadowCut"></div>
-        </div>
+    <main class="wrap" aria-label="SCS Coming Soon">
+      <div class="stack">
+        <!-- LOGO: replace placeholder with <img class="logoImg" src="logo.svg" alt="SCS" /> -->
+        <div class="logo" aria-label="Logo placeholder"><span>SCS</span></div>
 
-        <div class="panel__content">
-          <div class="stack">
-            <!-- Optional logo slot: when you upload, replace with <img src="logo.svg" ...> -->
-            <!-- <img src="logo.svg" alt="SCS" style="width:48px;height:48px;opacity:.95;margin-bottom:10px" /> -->
+        <h1><span id="twTitle" class="line"></span></h1>
+        <p class="sub"><span id="twSub" class="line"></span></p>
 
-            <h1 class="title"><span id="twTitle" class="tw"></span></h1>
-            <p class="coming"><span id="twSub" class="tw"></span></p>
-
-            <div class="loaderWrap" aria-live="polite">
-              <div class="hud" aria-label="Loading">
-                <div class="ticks" aria-hidden="true">
-                  <span class="tick t1"></span>
-                  <span class="tick t2"></span>
-                  <span class="tick t3"></span>
-                  <span class="tick t4"></span>
-                </div>
-                <span class="center" aria-hidden="true"></span>
-              </div>
-            </div>
-
-            <div class="hint">
-              Contact: <a href="mailto:hello@scs.pro">hello@scs.pro</a>
-            </div>
+        <div class="loaderWrap" aria-live="polite">
+          <div id="loader" class="loader" aria-label="Loading">
+            <span class="crossX" aria-hidden="true"></span>
+            <span class="crossY" aria-hidden="true"></span>
+            <span class="dot" aria-hidden="true"></span>
+            <span class="tick t1" aria-hidden="true"></span>
+            <span class="tick t2" aria-hidden="true"></span>
+            <span class="tick t3" aria-hidden="true"></span>
+            <span class="tick t4" aria-hidden="true"></span>
           </div>
         </div>
-      </section>
+
+        <div class="hint">
+          Contact: <a href="mailto:hello@scs.pro">hello@scs.pro</a>
+        </div>
+      </div>
     </main>
 
     <script>
-      // Dual typewriter (loops), tuned to feel like your EntryPage cadence (but lightweight)
+      // Sequence:
+      // 1) title typewriter (one-shot)
+      // 2) subtitle typewriter (one-shot)
+      // 3) loader entry (one-shot) + then endless running
       (function () {
         const titleEl = document.getElementById("twTitle");
         const subEl = document.getElementById("twSub");
+        const loader = document.getElementById("loader");
 
         const titleText = "Spiess Consulting & Solutions";
-        const subText = "Coming soon";
+        const subText = "Coming Soon";
 
-        function type(el, text, opts) {
+        function typeOnce(el, text, opts) {
           const o = Object.assign(
-            {
-              startDelay: 0,
-              charDelay: 34,
-              holdDelay: 1600,
-              deleteDelay: 14,
-              gapDelay: 520,
-              loop: false,
-            },
+            { startDelay: 0, charDelay: 30, hideCursorAfterMs: 650 },
             opts || {}
           );
-
-          let i = 0;
-          let deleting = false;
-
-          function tick() {
-            if (!el) return;
-
-            if (!deleting) {
+          return new Promise((resolve) => {
+            let i = 0;
+            function tick() {
+              if (!el) return resolve();
               i++;
               el.textContent = text.slice(0, i);
-              if (i >= text.length) {
-                if (!o.loop) return;
-                deleting = true;
-                setTimeout(tick, o.holdDelay);
-                return;
+              if (i < text.length) {
+                setTimeout(tick, o.charDelay);
+              } else {
+                setTimeout(() => {
+                  el.style.borderRight = "none";
+                  resolve();
+                }, o.hideCursorAfterMs);
               }
-              setTimeout(tick, o.charDelay);
-            } else {
-              i--;
-              el.textContent = text.slice(0, Math.max(0, i));
-              if (i <= 0) {
-                deleting = false;
-                setTimeout(tick, o.gapDelay);
-                return;
-              }
-              setTimeout(tick, o.deleteDelay);
             }
-          }
-
-          setTimeout(tick, o.startDelay);
+            setTimeout(tick, o.startDelay);
+          });
         }
 
-        type(titleEl, titleText, {
-          startDelay: 260,
-          charDelay: 28,
-          holdDelay: 1900,
-          deleteDelay: 12,
-          gapDelay: 650,
-        });
+        async function run() {
+          await typeOnce(titleEl, titleText, { startDelay: 220, charDelay: 26, hideCursorAfterMs: 650 });
+          await typeOnce(subEl, subText, { startDelay: 120, charDelay: 44, hideCursorAfterMs: 450 });
 
-        type(subEl, subText, {
-          startDelay: 860,
-          charDelay: 44,
-          holdDelay: 1400,
-          deleteDelay: 16,
-          gapDelay: 700,
-        });
+          // Loader entry animation (once)
+          if (loader) {
+            loader.style.animation = "loaderIn 520ms cubic-bezier(0.2, 0.85, 0.2, 1) forwards";
+            // Start the endless mode after entry completes
+            setTimeout(() => {
+              loader.style.animation = "";
+              loader.classList.add("is-running");
+            }, 560);
+          }
+        }
+
+        run();
       })();
     </script>
   </body>
