@@ -5,7 +5,7 @@
   <title>SCS — Coming Soon</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Montserrat Variable – family name is "Montserrat" -->
+  <!-- Montserrat (Variable) – family name is "Montserrat" -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:opsz,wght@14..144,200..800&display=swap" rel="stylesheet">
@@ -15,23 +15,10 @@
       --aw-font-sans: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       --aw-font-heading: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 
-      --aw-color-primary: rgb(255, 94, 0);
-      --aw-color-accent: rgb(255, 140, 0);
-      --aw-color-bg-page: #ffffff;
-
-      --aw-color-text-heading: #000;
-      --aw-color-text-default: #101010;
-      --aw-color-text-muted: rgba(16, 16, 16, 0.66);
-    }
-
-    .dark {
-      --aw-font-sans: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      --aw-font-heading: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-
       --aw-color-primary: #F57C00;
       --aw-color-accent: #FF8C00;
-
       --aw-color-bg-page: #0D0D0D;
+
       --aw-color-text-heading: #f7f8f8;
       --aw-color-text-default: #e5ecf6;
       --aw-color-text-muted: rgba(229, 236, 246, 0.66);
@@ -47,7 +34,6 @@
       font-weight: 300;
       color: var(--aw-color-text-default);
       overflow-x: hidden;
-
       background:
         radial-gradient(1100px 620px at 50% -20%, rgba(255,255,255,0.06), transparent 62%),
         radial-gradient(900px 520px at 20% 85%, rgba(255,255,255,0.03), transparent 65%),
@@ -88,13 +74,13 @@
     .stack {
       width: min(860px, 100%);
       display: grid;
-      justify-items: center; /* explicit */
+      justify-items: center;
       align-items: center;
       text-align: center;
       gap: 10px;
     }
 
-    /* ===================== Logo row ===================== */
+    /* ===== Logo block (stable, centered) ===== */
     .logoRow {
       display: inline-flex;
       align-items: center;
@@ -111,38 +97,47 @@
       filter: drop-shadow(0 14px 50px rgba(0,0,0,0.55));
     }
 
-    .scsTw {
+    /* ===== Typewriter component (best-practice "no drift") =====
+       - Outer .twStage is centered
+       - .twBox has a fixed pixel width (measured), so center stays constant
+       - The actual text track is left-aligned, so typed characters never move */
+    .twStage { width: 100%; display: grid; place-items: center; }
+
+    .twBox {
+      width: var(--w, 0px);           /* set by JS in px */
+      max-width: 100%;
+      display: block;
+      overflow: hidden;
+    }
+
+    .twTrack {
       display: inline-block;
-      text-align: center;
+      width: max-content;
+      text-align: left;
+      white-space: nowrap;
+      will-change: contents;
+    }
+
+    .twCursor {
+      display: inline-block;
+      width: 2px;
+      height: 1em;
+      background: rgba(245,124,0,0.55);
+      vertical-align: -0.08em;
+      margin-left: 6px;
+      animation: blink 0.9s step-end infinite;
+    }
+    .twCursor.is-off { display: none; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* ===== Typography ===== */
+    .scs {
       font-family: var(--aw-font-heading);
       font-weight: 300;
       letter-spacing: 0.18em;
       font-size: 12px;
       color: rgba(255,255,255,0.72);
       transform: translateY(0.5px);
-      white-space: nowrap;
-    }
-
-    /* ===================== Typewriter blocks ===================== */
-    .twBox {
-      display: inline-block;
-      text-align: center;       /* FIX: center text inside reserved width */
-      white-space: nowrap;
-      overflow: hidden;         /* keeps cursor clean */
-    }
-
-    .twLine {
-      display: inline-block;
-      white-space: nowrap;
-      padding-right: 10px;
-      border-right: 2px solid rgba(245,124,0,0.50);
-      font-family: var(--aw-font-heading);
-    }
-
-    h1, .sub {
-      width: 100%;              /* FIX: ensure true center on mobile */
-      display: block;
-      text-align: center;
     }
 
     h1 {
@@ -153,7 +148,7 @@
       letter-spacing: 0.06em;
       color: var(--aw-color-text-heading);
       line-height: 1.18;
-      padding-bottom: 0.10em;   /* avoids ß/descender clipping */
+      padding-bottom: 0.12em; /* avoid descender clip */
     }
 
     .sub {
@@ -165,10 +160,10 @@
       text-transform: uppercase;
       color: var(--aw-color-text-muted);
       line-height: 1.25;
-      padding-bottom: 0.05em;
+      padding-bottom: 0.06em;
     }
 
-    /* ===================== Loader (rotation isolated) ===================== */
+    /* ===== Loader ===== */
     @keyframes lSpin { to { transform: rotate(360deg); } }
 
     .heroLoader {
@@ -197,41 +192,53 @@
     .l1::before { width: 100%; height: 1px; top: 50%; left: 0; transform: translateY(-0.5px); }
     .l1::after  { height: 100%; width: 1px; left: 50%; top: 0; transform: translateX(-0.5px); }
 
-    /* ===================== SVG Artista draw ===================== */
+    /* ===== SVG Artista draw (unchanged) ===== */
     @-webkit-keyframes animate-svg-stroke-1 { 0%{stroke-dashoffset:28.628747940063477px;stroke-dasharray:28.628747940063477px;} 100%{stroke-dashoffset:0;stroke-dasharray:28.628747940063477px;} }
     @keyframes animate-svg-stroke-1 { 0%{stroke-dashoffset:28.628747940063477px;stroke-dasharray:28.628747940063477px;} 100%{stroke-dashoffset:0;stroke-dasharray:28.628747940063477px;} }
     .svg-elem-1 { -webkit-animation: animate-svg-stroke-1 0.4s cubic-bezier(0.47,0,0.745,0.715) 0s both; animation: animate-svg-stroke-1 0.4s cubic-bezier(0.47,0,0.745,0.715) 0s both; }
-
     @-webkit-keyframes animate-svg-stroke-2 { 0%{stroke-dashoffset:28.628747940063477px;stroke-dasharray:28.628747940063477px;} 100%{stroke-dashoffset:0;stroke-dasharray:28.628747940063477px;} }
     @keyframes animate-svg-stroke-2 { 0%{stroke-dashoffset:28.628747940063477px;stroke-dasharray:28.628747940063477px;} 100%{stroke-dashoffset:0;stroke-dasharray:28.628747940063477px;} }
     .svg-elem-2 { -webkit-animation: animate-svg-stroke-2 0.4s cubic-bezier(0.47,0,0.745,0.715) 0.5s both; animation: animate-svg-stroke-2 0.4s cubic-bezier(0.47,0,0.745,0.715) 0.5s both; }
-
     @-webkit-keyframes animate-svg-stroke-3 { 0%{stroke-dashoffset:16.47428182403283px;stroke-dasharray:16.47428182403283px;} 100%{stroke-dashoffset:0;stroke-dasharray:16.47428182403283px;} }
     @keyframes animate-svg-stroke-3 { 0%{stroke-dashoffset:16.47428182403283px;stroke-dasharray:16.47428182403283px;} 100%{stroke-dashoffset:0;stroke-dasharray:16.47428182403283px;} }
     .svg-elem-3 { -webkit-animation: animate-svg-stroke-3 0.4s cubic-bezier(0.47,0,0.745,0.715) 1s both; animation: animate-svg-stroke-3 0.4s cubic-bezier(0.47,0,0.745,0.715) 1s both; }
-
     @-webkit-keyframes animate-svg-stroke-4 { 0%{stroke-dashoffset:16.47428182403283px;stroke-dasharray:16.47428182403283px;} 100%{stroke-dashoffset:0;stroke-dasharray:16.47428182403283px;} }
     @keyframes animate-svg-stroke-4 { 0%{stroke-dashoffset:16.47428182403283px;stroke-dasharray:16.47428182403283px;} 100%{stroke-dashoffset:0;stroke-dasharray:16.47428182403283px;} }
     .svg-elem-4 { -webkit-animation: animate-svg-stroke-4 0.4s cubic-bezier(0.47,0,0.745,0.715) 1.5s both; animation: animate-svg-stroke-4 0.4s cubic-bezier(0.47,0,0.745,0.715) 1.5s both; }
-
     @-webkit-keyframes animate-svg-stroke-5 { 0%{stroke-dashoffset:16.47428182403283px;stroke-dasharray:16.47428182403283px;} 100%{stroke-dashoffset:0;stroke-dasharray:16.47428182403283px;} }
     @keyframes animate-svg-stroke-5 { 0%{stroke-dashoffset:16.47428182403283px;stroke-dasharray:16.47428182403283px;} 100%{stroke-dashoffset:0;stroke-dasharray:16.47428182403283px;} }
     .svg-elem-5 { -webkit-animation: animate-svg-stroke-5 0.4s cubic-bezier(0.47,0,0.745,0.715) 2s both; animation: animate-svg-stroke-5 0.4s cubic-bezier(0.47,0,0.745,0.715) 2s both; }
-
     @-webkit-keyframes animate-svg-stroke-6 { 0%{stroke-dashoffset:82.78585052490234px;stroke-dasharray:82.78585052490234px;} 100%{stroke-dashoffset:0;stroke-dasharray:82.78585052490234px;} }
     @keyframes animate-svg-stroke-6 { 0%{stroke-dashoffset:82.78585052490234px;stroke-dasharray:82.78585052490234px;} 100%{stroke-dashoffset:0;stroke-dasharray:82.78585052490234px;} }
     .svg-elem-6 { -webkit-animation: animate-svg-stroke-6 0.4s cubic-bezier(0.47,0,0.745,0.715) 2.5s both; animation: animate-svg-stroke-6 0.4s cubic-bezier(0.47,0,0.745,0.715) 2.5s both; }
 
-    /* Reduce motion: stop grid/glass + SVG draw + cursor only. Loader still rotates. */
     @media (prefers-reduced-motion: reduce) {
       body::before, body::after { display:none; }
-      .twLine { border-right: none; }
+      .twCursor { display:none; }
       .svg-elem-1, .svg-elem-2, .svg-elem-3, .svg-elem-4, .svg-elem-5, .svg-elem-6 { animation: none !important; }
+      /* loader still rotates */
+    }
+
+    /* Hidden measurement layer */
+    .measure {
+      position: absolute;
+      left: -99999px;
+      top: -99999px;
+      white-space: nowrap;
+      visibility: hidden;
+      pointer-events: none;
     }
   </style>
 </head>
 
 <body>
+  <!-- measure spans (used to compute exact px widths including letter-spacing) -->
+  <div class="measure">
+    <span id="mSCS" class="scs"></span>
+    <span id="mTitle" style="font-family: var(--aw-font-heading); font-weight:300; font-size: clamp(1.18rem, 5.2vw, 2.20rem); letter-spacing:0.06em;"></span>
+    <span id="mSub" style="font-family: var(--aw-font-sans); font-weight:300; font-size:0.95rem; letter-spacing:0.14em; text-transform:uppercase;"></span>
+  </div>
+
   <div class="page">
     <main class="stack">
       <div class="logoRow" aria-label="Logo">
@@ -257,18 +264,25 @@
           </g>
         </svg>
 
-        <div id="twSCS" class="scsTw"></div>
+        <!-- SCS typewriter: stable width, left-aligned track inside centered box -->
+        <div class="twStage">
+          <div id="scsBox" class="twBox" style="--w: 0px;">
+            <span id="twSCS" class="twTrack scs"></span><span id="cSCS" class="twCursor"></span>
+          </div>
+        </div>
       </div>
 
-      <h1>
-        <span id="twTitleBox" class="twBox">
-          <span id="twTitle" class="twLine"></span>
+      <!-- Title -->
+      <h1 class="twStage">
+        <span id="titleBox" class="twBox" style="--w: 0px;">
+          <span id="twTitle" class="twTrack"></span><span id="cTitle" class="twCursor"></span>
         </span>
       </h1>
 
-      <p class="sub">
-        <span id="twSubBox" class="twBox">
-          <span id="twSub" class="twLine"></span>
+      <!-- Sub -->
+      <p class="sub twStage">
+        <span id="subBox" class="twBox" style="--w: 0px;">
+          <span id="twSub" class="twTrack"></span><span id="cSub" class="twCursor"></span>
         </span>
       </p>
 
@@ -282,42 +296,64 @@
 
   <script>
     (function () {
-      const scsEl = document.getElementById("twSCS");
-      const titleEl = document.getElementById("twTitle");
-      const subEl = document.getElementById("twSub");
-      const titleBox = document.getElementById("twTitleBox");
-      const subBox = document.getElementById("twSubBox");
-      const loaderWrap = document.getElementById("loaderWrap");
-
       const scsText = "SCS";
       const titleText = "Spiess Consulting & Solutions";
       const subText = "Coming Soon";
 
-      // FIX: reserve exact widths -> perfect centering + no clipping
-      // +1ch gives cursor padding room
-      titleBox.style.width = (titleText.length + 1) + "ch";
-      subBox.style.width = (subText.length + 2) + "ch"; // extra for letter-spacing
+      const el = {
+        twSCS: document.getElementById("twSCS"),
+        twTitle: document.getElementById("twTitle"),
+        twSub: document.getElementById("twSub"),
+        cSCS: document.getElementById("cSCS"),
+        cTitle: document.getElementById("cTitle"),
+        cSub: document.getElementById("cSub"),
+        scsBox: document.getElementById("scsBox"),
+        titleBox: document.getElementById("titleBox"),
+        subBox: document.getElementById("subBox"),
+        loaderWrap: document.getElementById("loaderWrap"),
+        mSCS: document.getElementById("mSCS"),
+        mTitle: document.getElementById("mTitle"),
+        mSub: document.getElementById("mSub"),
+      };
 
-      // logo draw finishes ~2.9s
-      const LOGO_DRAW_TOTAL_MS = 3000;
+      // 1) Measure exact pixel widths (including letter-spacing), then lock widths.
+      function measurePx(measureEl, text) {
+        measureEl.textContent = text;
+        const w = Math.ceil(measureEl.getBoundingClientRect().width);
+        return w;
+      }
 
-      function typeOnce(el, text, opts) {
-        const o = Object.assign({ startDelay: 0, charDelay: 34, cursor: false, hideCursorAfterMs: 350 }, opts || {});
+      function lockWidths() {
+        const wSCS = measurePx(el.mSCS, scsText) + 12;         // small cursor room
+        const wTitle = measurePx(el.mTitle, titleText) + 14;   // cursor room
+        const wSub = measurePx(el.mSub, subText.toUpperCase()) + 16;
+
+        el.scsBox.style.setProperty("--w", wSCS + "px");
+        el.titleBox.style.setProperty("--w", wTitle + "px");
+        el.subBox.style.setProperty("--w", wSub + "px");
+      }
+
+      // Ensure fonts are loaded before measuring (best practice)
+      async function ensureFonts() {
+        try {
+          if (document.fonts && document.fonts.ready) await document.fonts.ready;
+        } catch {}
+      }
+
+      function typeOnce(textEl, cursorEl, text, opts) {
+        const o = Object.assign({ startDelay: 0, charDelay: 34, hideCursorAfterMs: 350 }, opts || {});
         return new Promise((resolve) => {
           let i = 0;
-          const hasCursor = o.cursor && el.classList.contains("twLine");
-
           function tick() {
             i++;
-            el.textContent = text.slice(0, i);
+            textEl.textContent = text.slice(0, i);
             if (i < text.length) {
               setTimeout(tick, o.charDelay);
             } else {
-              if (hasCursor) {
-                setTimeout(() => { el.style.borderRight = "none"; resolve(); }, o.hideCursorAfterMs);
-              } else {
+              setTimeout(() => {
+                cursorEl.classList.add("is-off");
                 resolve();
-              }
+              }, o.hideCursorAfterMs);
             }
           }
           setTimeout(tick, o.startDelay);
@@ -325,19 +361,30 @@
       }
 
       function showLoader() {
-        loaderWrap.style.transition =
+        el.loaderWrap.style.transition =
           "opacity 420ms cubic-bezier(0.2,0.85,0.2,1), transform 420ms cubic-bezier(0.2,0.85,0.2,1)";
-        loaderWrap.style.opacity = "1";
-        loaderWrap.style.transform = "translateY(0) scale(1)";
+        el.loaderWrap.style.opacity = "1";
+        el.loaderWrap.style.transform = "translateY(0) scale(1)";
       }
 
       (async function run() {
+        await ensureFonts();
+        lockWidths();
+
+        // Re-lock on resize/orientation change (mobile)
+        window.addEventListener("resize", () => {
+          // throttle light
+          clearTimeout(window.__scs_tw_resize);
+          window.__scs_tw_resize = setTimeout(lockWidths, 80);
+        });
+
+        // Logo draw finishes ~2.9s
+        const LOGO_DRAW_TOTAL_MS = 3000;
         await new Promise((r) => setTimeout(r, LOGO_DRAW_TOTAL_MS));
 
-        await typeOnce(scsEl, scsText, { charDelay: 90, cursor: false });
-
-        await typeOnce(titleEl, titleText, { startDelay: 140, charDelay: 26, cursor: true, hideCursorAfterMs: 520 });
-        await typeOnce(subEl, subText, { startDelay: 120, charDelay: 42, cursor: true, hideCursorAfterMs: 420 });
+        await typeOnce(el.twSCS, el.cSCS, scsText, { charDelay: 90, hideCursorAfterMs: 250 });
+        await typeOnce(el.twTitle, el.cTitle, titleText, { startDelay: 140, charDelay: 26, hideCursorAfterMs: 520 });
+        await typeOnce(el.twSub, el.cSub, subText.toUpperCase(), { startDelay: 120, charDelay: 42, hideCursorAfterMs: 420 });
 
         setTimeout(showLoader, 60);
       })();
