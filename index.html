@@ -204,6 +204,16 @@
       100%{ left: 110%; opacity: .25; }
     }
 
+    /* Longer, better-feeling spark travel for #19 */
+    @keyframes lSpark {
+      0%   { left: 16px; top: 20px; opacity: 0.0; }
+      15%  { opacity: 0.75; }
+      45%  { left: 40px; top: 40px; opacity: 0.90; }
+      70%  { left: 72px; top: 24px; opacity: 0.75; }
+      90%  { opacity: 0.15; }
+      100% { left: 72px; top: 24px; opacity: 0.0; }
+    }
+
     /* ---------------------------------------------------------
        Favorites base (01 / 09 / 05 / 06 / 14) + hybrids
        --------------------------------------------------------- */
@@ -284,7 +294,7 @@
       filter: blur(12px); opacity: 0.0; animation: lPing 1.9s ease-in-out infinite;
     }
 
-    /* ===================== NEW 6 based on your favorites ===================== */
+    /* ===================== NEW based on favorites ===================== */
 
     /* 15 — Crosshair Micro + Soft Trail (01 but more premium) */
     .l15 {
@@ -318,14 +328,19 @@
     .l16 .lane.t { top: 7px; }
     .l16 .lane.b { bottom: 7px; }
     .l16 .pkt {
-      position:absolute; top: 50%; transform: translateY(-50%);
+      position:absolute;
       width: 18px; height: 6px; border-radius: 999px;
       background: rgba(255,255,255,0.22);
       animation: lStream 1.15s ease-in-out infinite;
     }
-    .l16 .pkt.p1 { top: 7px; transform: translateY(-50%); }
-    .l16 .pkt.p2 { top: 15px; transform: translateY(-50%); animation-delay: .18s; }
-    .l16 .pkt.p3 { top: 15px; transform: translateY(-50%); background: rgba(245,124,0,0.55); box-shadow: 0 0 18px rgba(245,124,0,0.12); animation-delay: .36s; }
+    .l16 .pkt.p1 { top: 7px; }
+    .l16 .pkt.p2 { top: 15px; animation-delay: .18s; }
+    .l16 .pkt.p3 {
+      top: 15px;
+      background: rgba(245,124,0,0.55);
+      box-shadow: 0 0 18px rgba(245,124,0,0.12);
+      animation-delay: .36s;
+    }
 
     /* 17 — Segmented Ring + Gate Tick (05 but “status/heartbeat”) */
     .l17 { width: 68px; height: 68px; position: relative; border-radius: 999px; }
@@ -369,10 +384,14 @@
     .l18 .dots span:nth-child(4) { animation-delay: 0.36s; }
     .l18 .dots span:last-child { background: rgba(245,124,0,0.55); box-shadow: 0 0 16px rgba(245,124,0,0.10); }
 
-    /* 19 — Network Topology Pulse Map (14 but more “integration graph”) */
+    /* 19 — Network Topology Pulse Map (longer) */
     .l19 { width: 92px; height: 62px; position: relative; }
-    .l19 .pulse { position:absolute; inset:-18px; background: radial-gradient(circle at 50% 55%, rgba(245,124,0,0.18), transparent 58%);
-      filter: blur(12px); opacity: 0.0; animation: lPing 1.6s ease-in-out infinite;
+    .l19 .pulse {
+      position:absolute; inset:-18px;
+      background: radial-gradient(circle at 50% 55%, rgba(245,124,0,0.18), transparent 58%);
+      filter: blur(12px);
+      opacity: 0.0;
+      animation: lPing 2.4s ease-in-out infinite; /* slower */
     }
     .l19 .node { position:absolute; width: 6px; height: 6px; border-radius:999px; background: rgba(255,255,255,0.22); }
     .l19 .node.n1 { left: 10px; top: 18px; }
@@ -387,15 +406,8 @@
       position:absolute; width: 10px; height: 2px; border-radius: 999px;
       background: rgba(245,124,0,0.45);
       opacity: 0.0;
-      animation: lSpark 1.2s ease-in-out infinite;
+      animation: lSpark 2.9s ease-in-out infinite; /* longer */
       filter: blur(0.1px);
-    }
-    @keyframes lSpark {
-      0% { left: 16px; top: 20px; opacity: 0.0; }
-      20%{ opacity: 0.75; }
-      55%{ left: 40px; top: 40px; opacity: 0.85; }
-      80%{ opacity: 0.15; }
-      100%{ left: 40px; top: 40px; opacity: 0.0; }
     }
 
     /* 20 — Segmented Ring + Orbit Packet (Hybrid 05+09) */
@@ -416,16 +428,99 @@
       box-shadow: 0 0 18px rgba(245,124,0,0.12);
     }
 
+    /* 21 — Route Trace (Long) */
+    .l21 {
+      width: 108px;
+      height: 64px;
+      position: relative;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.02);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+      overflow: hidden;
+    }
+
+    .l21 svg {
+      width: 108px;
+      height: 64px;
+      display: block;
+    }
+
+    .l21 path.base {
+      fill: none;
+      stroke: rgba(255,255,255,0.16);
+      stroke-width: 1.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .l21 path.trace {
+      fill: none;
+      stroke: rgba(245,124,0,0.55);
+      stroke-width: 1.3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 180;
+      stroke-dashoffset: 180;
+      animation: lRouteDraw 4.8s cubic-bezier(0.2,0.85,0.2,1) infinite;
+      filter: drop-shadow(0 0 10px rgba(245,124,0,0.10));
+      opacity: 0.9;
+    }
+
+    .l21 .pkt {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(245,124,0,0.60);
+      box-shadow: 0 0 16px rgba(245,124,0,0.12);
+      animation: lRouteMove 4.8s cubic-bezier(0.2,0.85,0.2,1) infinite;
+      opacity: 0.0;
+    }
+
+    .l21::after {
+      content:"";
+      position:absolute;
+      inset:-18px;
+      background: radial-gradient(circle at 50% 55%, rgba(245,124,0,0.12), transparent 58%);
+      filter: blur(14px);
+      opacity: 0.0;
+      animation: lRouteGlow 4.8s ease-in-out infinite;
+    }
+
+    @keyframes lRouteDraw {
+      0%   { stroke-dashoffset: 180; opacity: 0.0; }
+      10%  { opacity: 0.9; }
+      55%  { stroke-dashoffset: 0;   opacity: 0.9; }
+      75%  { opacity: 0.35; }
+      100% { stroke-dashoffset: -180; opacity: 0.0; }
+    }
+
+    @keyframes lRouteMove {
+      0%   { transform: translate(12px, 38px); opacity: 0.0; }
+      10%  { opacity: 0.9; }
+      28%  { transform: translate(32px, 20px); opacity: 0.9; }
+      48%  { transform: translate(56px, 34px); opacity: 0.9; }
+      68%  { transform: translate(78px, 18px); opacity: 0.9; }
+      82%  { transform: translate(92px, 30px); opacity: 0.55; }
+      100% { transform: translate(92px, 30px); opacity: 0.0; }
+    }
+
+    @keyframes lRouteGlow {
+      0%,100% { opacity: 0.06; transform: scale(0.98); }
+      45%     { opacity: 0.18; transform: scale(1.02); }
+    }
+
     /* Reduced motion */
     @media (prefers-reduced-motion: reduce) {
       body::before, body::after { display:none; }
       .twLine { border-right: none; }
 
-      .l1, .l1::before, .l1::after,
-      .l5, .l6 span, .l9::before, .l9::after,
+      .l1, .l5, .l6 span, .l9::before, .l9::after,
       .l14 .pulse,
       .l15, .l15 .trail, .l16 .pkt, .l17 .ring, .l17 .tick,
-      .l18 .dots span, .l19 .pulse, .l19 .spark, .l20::before, .l20 .orbit {
+      .l18 .dots span, .l19 .pulse, .l19 .spark, .l20::before, .l20 .orbit,
+      .l21 path.trace, .l21 .pkt, .l21::after {
         animation: none !important;
       }
     }
@@ -458,9 +553,13 @@
     <section class="grid" aria-label="Loader options">
       <!-- Favorites -->
       <article class="card"><div class="label">01 — Minimal Crosshair Spin (favorite)</div><div class="stage"><div class="l1"></div></div></article>
+
       <article class="card"><div class="label">09 — Data Stream</div><div class="stage"><div class="l9"></div></div></article>
+
       <article class="card"><div class="label">05 — Segmented Ring</div><div class="stage"><div class="l5"></div></div></article>
+
       <article class="card"><div class="label">06 — Marching Dots</div><div class="stage"><div class="l6"><span></span><span></span><span></span><span></span></div></div></article>
+
       <article class="card">
         <div class="label">14 — Nodes & Links</div>
         <div class="stage">
@@ -472,7 +571,7 @@
         </div>
       </article>
 
-      <!-- NEW based on favorites -->
+      <!-- Hybrids / variants based on favorites -->
       <article class="card">
         <div class="label">15 — Crosshair Micro + Soft Trail</div>
         <div class="stage"><div class="l15"><span class="trail"></span></div></div>
@@ -504,7 +603,7 @@
       </article>
 
       <article class="card">
-        <div class="label">19 — Network Topology Pulse Map</div>
+        <div class="label">19 — Network Topology Pulse Map (Longer)</div>
         <div class="stage">
           <div class="l19">
             <span class="pulse"></span>
@@ -518,6 +617,19 @@
       <article class="card">
         <div class="label">20 — Segmented Ring + Orbit Packet</div>
         <div class="stage"><div class="l20"><span class="orbit"></span></div></div>
+      </article>
+
+      <article class="card">
+        <div class="label">21 — Route Trace (Long)</div>
+        <div class="stage">
+          <div class="l21" aria-label="Loader 21">
+            <svg viewBox="0 0 108 64" aria-hidden="true">
+              <path class="base" d="M14 42 C 26 26, 40 18, 54 34 S 80 20, 94 30" />
+              <path class="trace" d="M14 42 C 26 26, 40 18, 54 34 S 80 20, 94 30" />
+            </svg>
+            <span class="pkt" aria-hidden="true"></span>
+          </div>
+        </div>
       </article>
     </section>
   </div>
@@ -549,7 +661,8 @@
 
       function showFinalLoader() {
         if (!finalLoader) return;
-        finalLoader.style.transition = "opacity 520ms cubic-bezier(0.2,0.85,0.2,1), transform 520ms cubic-bezier(0.2,0.85,0.2,1)";
+        finalLoader.style.transition =
+          "opacity 520ms cubic-bezier(0.2,0.85,0.2,1), transform 520ms cubic-bezier(0.2,0.85,0.2,1)";
         finalLoader.style.opacity = "1";
         finalLoader.style.transform = "translateY(0) scale(1)";
       }
