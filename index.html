@@ -5,19 +5,17 @@
   <title>SCS — Coming Soon</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Montserrat (Variable) – family name is "Montserrat" -->
+  <!-- Montserrat Variable – family name is "Montserrat" -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:opsz,wght@14..144,200..800&display=swap" rel="stylesheet">
 
   <style>
-    /* ===================== Corporate tokens (keep) ===================== */
     :root {
       --aw-font-sans: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       --aw-font-heading: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 
       --aw-color-primary: rgb(255, 94, 0);
-      --aw-color-secondary: rgb(0, 102, 102);
       --aw-color-accent: rgb(255, 140, 0);
       --aw-color-bg-page: #ffffff;
 
@@ -31,7 +29,6 @@
       --aw-font-heading: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 
       --aw-color-primary: #F57C00;
-      --aw-color-secondary: #0A6678;
       --aw-color-accent: #FF8C00;
 
       --aw-color-bg-page: #0D0D0D;
@@ -42,7 +39,6 @@
 
     ::selection { background-color: var(--aw-color-primary); color: white; }
     * { box-sizing: border-box; }
-
     html, body { height: 100%; }
 
     body {
@@ -58,7 +54,6 @@
         var(--aw-color-bg-page);
     }
 
-    /* subtle grid */
     body::before {
       content: "";
       position: fixed;
@@ -72,14 +67,12 @@
       mask-image: radial-gradient(circle at 50% 42%, black 0 56%, transparent 80%);
     }
 
-    /* ultra subtle glass wash */
     body::after {
       content: "";
       position: fixed;
       inset: 0;
       pointer-events: none;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.00) 55%);
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.00) 55%);
       opacity: 0.85;
     }
 
@@ -95,12 +88,13 @@
     .stack {
       width: min(860px, 100%);
       display: grid;
-      place-items: center;
+      justify-items: center; /* explicit */
+      align-items: center;
       text-align: center;
       gap: 10px;
     }
 
-    /* ===================== Logo (small, no pane) ===================== */
+    /* ===================== Logo row ===================== */
     .logoRow {
       display: inline-flex;
       align-items: center;
@@ -117,11 +111,9 @@
       filter: drop-shadow(0 14px 50px rgba(0,0,0,0.55));
     }
 
-    /* SCS should also typewriter, but keep it thin/minimal */
     .scsTw {
       display: inline-block;
-      min-width: 6ch;           /* prevents layout twitch */
-      text-align: left;
+      text-align: center;
       font-family: var(--aw-font-heading);
       font-weight: 300;
       letter-spacing: 0.18em;
@@ -131,38 +123,37 @@
       white-space: nowrap;
     }
 
-    /* ===================== Typewriter blocks (no jump, no clipping) ===================== */
+    /* ===================== Typewriter blocks ===================== */
     .twBox {
       display: inline-block;
-      text-align: left;
+      text-align: center;       /* FIX: center text inside reserved width */
       white-space: nowrap;
-      overflow: hidden;
+      overflow: hidden;         /* keeps cursor clean */
     }
 
     .twLine {
       display: inline-block;
       white-space: nowrap;
-      overflow: hidden;
       padding-right: 10px;
       border-right: 2px solid rgba(245,124,0,0.50);
       font-family: var(--aw-font-heading);
     }
 
-    /* generous widths -> no clipping on mobile */
-    .twTitleWidth { width: 34ch; }
-    .twSubWidth   { width: 16ch; }
+    h1, .sub {
+      width: 100%;              /* FIX: ensure true center on mobile */
+      display: block;
+      text-align: center;
+    }
 
     h1 {
       margin: 0;
       font-family: var(--aw-font-heading);
-      font-weight: 300;                 /* thin */
+      font-weight: 300;
       font-size: clamp(1.18rem, 5.2vw, 2.20rem);
       letter-spacing: 0.06em;
       color: var(--aw-color-text-heading);
-
-      /* FIX: prevent descender clipping (ß) */
       line-height: 1.18;
-      padding-bottom: 0.10em;
+      padding-bottom: 0.10em;   /* avoids ß/descender clipping */
     }
 
     .sub {
@@ -177,11 +168,11 @@
       padding-bottom: 0.05em;
     }
 
-    /* ===================== Loader (rotation isolated from entry transform) ===================== */
+    /* ===================== Loader (rotation isolated) ===================== */
     @keyframes lSpin { to { transform: rotate(360deg); } }
 
     .heroLoader {
-      margin-top: 2px;        /* tighter */
+      margin-top: 2px;
       display: grid;
       place-items: center;
       min-height: 48px;
@@ -199,82 +190,39 @@
       position: relative;
       border: 1px solid rgba(245,124,0,0.60);
       border-radius: 10px;
-      animation: lSpin 3.0s linear infinite; /* ALWAYS rotates */
+      animation: lSpin 3.0s linear infinite;
       box-shadow: 0 0 26px rgba(245,124,0,0.12);
     }
     .l1::before, .l1::after { content:""; position:absolute; background: rgba(245,124,0,0.55); }
     .l1::before { width: 100%; height: 1px; top: 50%; left: 0; transform: translateY(-0.5px); }
     .l1::after  { height: 100%; width: 1px; left: 50%; top: 0; transform: translateX(-0.5px); }
 
-    /* ===================== SVG Artista (logo draw once) ===================== */
-    @-webkit-keyframes animate-svg-stroke-1 {
-      0% { stroke-dashoffset: 28.628747940063477px; stroke-dasharray: 28.628747940063477px; }
-      100% { stroke-dashoffset: 0; stroke-dasharray: 28.628747940063477px; }
-    }
-    @keyframes animate-svg-stroke-1 {
-      0% { stroke-dashoffset: 28.628747940063477px; stroke-dasharray: 28.628747940063477px; }
-      100% { stroke-dashoffset: 0; stroke-dasharray: 28.628747940063477px; }
-    }
-    .svg-elem-1 { -webkit-animation: animate-svg-stroke-1 0.4s cubic-bezier(0.47, 0, 0.745, 0.715) 0s both;
-                          animation: animate-svg-stroke-1 0.4s cubic-bezier(0.47, 0, 0.745, 0.715) 0s both; }
+    /* ===================== SVG Artista draw ===================== */
+    @-webkit-keyframes animate-svg-stroke-1 { 0%{stroke-dashoffset:28.628747940063477px;stroke-dasharray:28.628747940063477px;} 100%{stroke-dashoffset:0;stroke-dasharray:28.628747940063477px;} }
+    @keyframes animate-svg-stroke-1 { 0%{stroke-dashoffset:28.628747940063477px;stroke-dasharray:28.628747940063477px;} 100%{stroke-dashoffset:0;stroke-dasharray:28.628747940063477px;} }
+    .svg-elem-1 { -webkit-animation: animate-svg-stroke-1 0.4s cubic-bezier(0.47,0,0.745,0.715) 0s both; animation: animate-svg-stroke-1 0.4s cubic-bezier(0.47,0,0.745,0.715) 0s both; }
 
-    @-webkit-keyframes animate-svg-stroke-2 {
-      0% { stroke-dashoffset: 28.628747940063477px; stroke-dasharray: 28.628747940063477px; }
-      100% { stroke-dashoffset: 0; stroke-dasharray: 28.628747940063477px; }
-    }
-    @keyframes animate-svg-stroke-2 {
-      0% { stroke-dashoffset: 28.628747940063477px; stroke-dasharray: 28.628747940063477px; }
-      100% { stroke-dashoffset: 0; stroke-dasharray: 28.628747940063477px; }
-    }
-    .svg-elem-2 { -webkit-animation: animate-svg-stroke-2 0.4s cubic-bezier(0.47, 0, 0.745, 0.715) 0.5s both;
-                          animation: animate-svg-stroke-2 0.4s cubic-bezier(0.47, 0, 0.745, 0.715) 0.5s both; }
+    @-webkit-keyframes animate-svg-stroke-2 { 0%{stroke-dashoffset:28.628747940063477px;stroke-dasharray:28.628747940063477px;} 100%{stroke-dashoffset:0;stroke-dasharray:28.628747940063477px;} }
+    @keyframes animate-svg-stroke-2 { 0%{stroke-dashoffset:28.628747940063477px;stroke-dasharray:28.628747940063477px;} 100%{stroke-dashoffset:0;stroke-dasharray:28.628747940063477px;} }
+    .svg-elem-2 { -webkit-animation: animate-svg-stroke-2 0.4s cubic-bezier(0.47,0,0.745,0.715) 0.5s both; animation: animate-svg-stroke-2 0.4s cubic-bezier(0.47,0,0.745,0.715) 0.5s both; }
 
-    @-webkit-keyframes animate-svg-stroke-3 {
-      0% { stroke-dashoffset: 16.47428182403283px; stroke-dasharray: 16.47428182403283px; }
-      100% { stroke-dashoffset: 0; stroke-dasharray: 16.47428182403283px; }
-    }
-    @keyframes animate-svg-stroke-3 {
-      0% { stroke-dashoffset: 16.47428182403283px; stroke-dasharray: 16.47428182403283px; }
-      100% { stroke-dashoffset: 0; stroke-dasharray: 16.47428182403283px; }
-    }
-    .svg-elem-3 { -webkit-animation: animate-svg-stroke-3 0.4s cubic-bezier(0.47, 0, 0.745, 0.715) 1s both;
-                          animation: animate-svg-stroke-3 0.4s cubic-bezier(0.47, 0, 0.745, 0.715) 1s both; }
+    @-webkit-keyframes animate-svg-stroke-3 { 0%{stroke-dashoffset:16.47428182403283px;stroke-dasharray:16.47428182403283px;} 100%{stroke-dashoffset:0;stroke-dasharray:16.47428182403283px;} }
+    @keyframes animate-svg-stroke-3 { 0%{stroke-dashoffset:16.47428182403283px;stroke-dasharray:16.47428182403283px;} 100%{stroke-dashoffset:0;stroke-dasharray:16.47428182403283px;} }
+    .svg-elem-3 { -webkit-animation: animate-svg-stroke-3 0.4s cubic-bezier(0.47,0,0.745,0.715) 1s both; animation: animate-svg-stroke-3 0.4s cubic-bezier(0.47,0,0.745,0.715) 1s both; }
 
-    @-webkit-keyframes animate-svg-stroke-4 {
-      0% { stroke-dashoffset: 16.47428182403283px; stroke-dasharray: 16.47428182403283px; }
-      100% { stroke-dashoffset: 0; stroke-dasharray: 16.47428182403283px; }
-    }
-    @keyframes animate-svg-stroke-4 {
-      0% { stroke-dashoffset: 16.47428182403283px; stroke-dasharray: 16.47428182403283px; }
-      100% { stroke-dashoffset: 0; stroke-dasharray: 16.47428182403283px; }
-    }
-    .svg-elem-4 { -webkit-animation: animate-svg-stroke-4 0.4s cubic-bezier(0.47, 0, 0.745, 0.715) 1.5s both;
-                          animation: animate-svg-stroke-4 0.4s cubic-bezier(0.47, 0, 0.745, 0.715) 1.5s both; }
+    @-webkit-keyframes animate-svg-stroke-4 { 0%{stroke-dashoffset:16.47428182403283px;stroke-dasharray:16.47428182403283px;} 100%{stroke-dashoffset:0;stroke-dasharray:16.47428182403283px;} }
+    @keyframes animate-svg-stroke-4 { 0%{stroke-dashoffset:16.47428182403283px;stroke-dasharray:16.47428182403283px;} 100%{stroke-dashoffset:0;stroke-dasharray:16.47428182403283px;} }
+    .svg-elem-4 { -webkit-animation: animate-svg-stroke-4 0.4s cubic-bezier(0.47,0,0.745,0.715) 1.5s both; animation: animate-svg-stroke-4 0.4s cubic-bezier(0.47,0,0.745,0.715) 1.5s both; }
 
-    @-webkit-keyframes animate-svg-stroke-5 {
-      0% { stroke-dashoffset: 16.47428182403283px; stroke-dasharray: 16.47428182403283px; }
-      100% { stroke-dashoffset: 0; stroke-dasharray: 16.47428182403283px; }
-    }
-    @keyframes animate-svg-stroke-5 {
-      0% { stroke-dashoffset: 16.47428182403283px; stroke-dasharray: 16.47428182403283px; }
-      100% { stroke-dashoffset: 0; stroke-dasharray: 16.47428182403283px; }
-    }
-    .svg-elem-5 { -webkit-animation: animate-svg-stroke-5 0.4s cubic-bezier(0.47, 0, 0.745, 0.715) 2s both;
-                          animation: animate-svg-stroke-5 0.4s cubic-bezier(0.47, 0, 0.745, 0.715) 2s both; }
+    @-webkit-keyframes animate-svg-stroke-5 { 0%{stroke-dashoffset:16.47428182403283px;stroke-dasharray:16.47428182403283px;} 100%{stroke-dashoffset:0;stroke-dasharray:16.47428182403283px;} }
+    @keyframes animate-svg-stroke-5 { 0%{stroke-dashoffset:16.47428182403283px;stroke-dasharray:16.47428182403283px;} 100%{stroke-dashoffset:0;stroke-dasharray:16.47428182403283px;} }
+    .svg-elem-5 { -webkit-animation: animate-svg-stroke-5 0.4s cubic-bezier(0.47,0,0.745,0.715) 2s both; animation: animate-svg-stroke-5 0.4s cubic-bezier(0.47,0,0.745,0.715) 2s both; }
 
-    @-webkit-keyframes animate-svg-stroke-6 {
-      0% { stroke-dashoffset: 82.78585052490234px; stroke-dasharray: 82.78585052490234px; }
-      100% { stroke-dashoffset: 0; stroke-dasharray: 82.78585052490234px; }
-    }
-    @keyframes animate-svg-stroke-6 {
-      0% { stroke-dashoffset: 82.78585052490234px; stroke-dasharray: 82.78585052490234px; }
-      100% { stroke-dashoffset: 0; stroke-dasharray: 82.78585052490234px; }
-    }
-    .svg-elem-6 { -webkit-animation: animate-svg-stroke-6 0.4s cubic-bezier(0.47, 0, 0.745, 0.715) 2.5s both;
-                          animation: animate-svg-stroke-6 0.4s cubic-bezier(0.47, 0, 0.745, 0.715) 2.5s both; }
+    @-webkit-keyframes animate-svg-stroke-6 { 0%{stroke-dashoffset:82.78585052490234px;stroke-dasharray:82.78585052490234px;} 100%{stroke-dashoffset:0;stroke-dasharray:82.78585052490234px;} }
+    @keyframes animate-svg-stroke-6 { 0%{stroke-dashoffset:82.78585052490234px;stroke-dasharray:82.78585052490234px;} 100%{stroke-dashoffset:0;stroke-dasharray:82.78585052490234px;} }
+    .svg-elem-6 { -webkit-animation: animate-svg-stroke-6 0.4s cubic-bezier(0.47,0,0.745,0.715) 2.5s both; animation: animate-svg-stroke-6 0.4s cubic-bezier(0.47,0,0.745,0.715) 2.5s both; }
 
-    /* Reduce motion: stop only background/grid + SVG draw + cursor.
-       Loader still rotates (per your requirement). */
+    /* Reduce motion: stop grid/glass + SVG draw + cursor only. Loader still rotates. */
     @media (prefers-reduced-motion: reduce) {
       body::before, body::after { display:none; }
       .twLine { border-right: none; }
@@ -309,18 +257,17 @@
           </g>
         </svg>
 
-        <!-- SCS typewriter (starts after logo draw) -->
         <div id="twSCS" class="scsTw"></div>
       </div>
 
       <h1>
-        <span class="twBox twTitleWidth">
+        <span id="twTitleBox" class="twBox">
           <span id="twTitle" class="twLine"></span>
         </span>
       </h1>
 
       <p class="sub">
-        <span class="twBox twSubWidth">
+        <span id="twSubBox" class="twBox">
           <span id="twSub" class="twLine"></span>
         </span>
       </p>
@@ -338,22 +285,27 @@
       const scsEl = document.getElementById("twSCS");
       const titleEl = document.getElementById("twTitle");
       const subEl = document.getElementById("twSub");
+      const titleBox = document.getElementById("twTitleBox");
+      const subBox = document.getElementById("twSubBox");
       const loaderWrap = document.getElementById("loaderWrap");
 
       const scsText = "SCS";
       const titleText = "Spiess Consulting & Solutions";
       const subText = "Coming Soon";
 
-      // last SVG stroke starts at 2.5s and lasts 0.4s => ~2.9s
+      // FIX: reserve exact widths -> perfect centering + no clipping
+      // +1ch gives cursor padding room
+      titleBox.style.width = (titleText.length + 1) + "ch";
+      subBox.style.width = (subText.length + 2) + "ch"; // extra for letter-spacing
+
+      // logo draw finishes ~2.9s
       const LOGO_DRAW_TOTAL_MS = 3000;
 
       function typeOnce(el, text, opts) {
         const o = Object.assign({ startDelay: 0, charDelay: 34, cursor: false, hideCursorAfterMs: 350 }, opts || {});
         return new Promise((resolve) => {
           let i = 0;
-
-          // Optional cursor for twLine only (SCS has no cursor)
-          const hasBorderCursor = o.cursor && el.classList.contains("twLine");
+          const hasCursor = o.cursor && el.classList.contains("twLine");
 
           function tick() {
             i++;
@@ -361,7 +313,7 @@
             if (i < text.length) {
               setTimeout(tick, o.charDelay);
             } else {
-              if (hasBorderCursor) {
+              if (hasCursor) {
                 setTimeout(() => { el.style.borderRight = "none"; resolve(); }, o.hideCursorAfterMs);
               } else {
                 resolve();
@@ -380,17 +332,13 @@
       }
 
       (async function run() {
-        // Wait for logo draw to finish
         await new Promise((r) => setTimeout(r, LOGO_DRAW_TOTAL_MS));
 
-        // SCS typewriter (no cursor)
-        await typeOnce(scsEl, scsText, { charDelay: 80, cursor: false });
+        await typeOnce(scsEl, scsText, { charDelay: 90, cursor: false });
 
-        // Title and sub typewriter (with cursor on the element)
         await typeOnce(titleEl, titleText, { startDelay: 140, charDelay: 26, cursor: true, hideCursorAfterMs: 520 });
         await typeOnce(subEl, subText, { startDelay: 120, charDelay: 42, cursor: true, hideCursorAfterMs: 420 });
 
-        // Reveal loader (rotation is on inner .l1 and always runs)
         setTimeout(showLoader, 60);
       })();
     })();
