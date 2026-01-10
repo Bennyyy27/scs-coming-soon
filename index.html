@@ -44,11 +44,12 @@
     ::selection { background-color: var(--aw-color-primary); color: white; }
     * { box-sizing: border-box; }
 
+    html, body { height: 100%; }
+
     body {
       margin: 0;
       font-family: var(--aw-font-sans);
       color: var(--aw-color-text-default);
-      min-height: 100vh;
       overflow-x: hidden;
 
       background:
@@ -71,7 +72,7 @@
       mask-image: radial-gradient(circle at 50% 42%, black 0 56%, transparent 80%);
     }
 
-    /* glass wash */
+    /* glass wash (very subtle) */
     body::after {
       content: "";
       position: fixed;
@@ -80,140 +81,118 @@
       background:
         linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.00) 55%),
         linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00) 35%, rgba(255,255,255,0.02));
-      opacity: 0.9;
+      opacity: 0.85;
     }
 
     .page {
       position: relative;
       z-index: 1;
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 42px 20px 56px;
       min-height: 100vh;
       display: grid;
       place-items: center;
+      padding: 34px 18px 44px;
     }
 
+    /* tighter vertical rhythm for mobile */
     .stack {
-      width: 100%;
+      width: min(860px, 100%);
       display: grid;
       place-items: center;
       text-align: center;
-      gap: 14px;
-      padding: 18px 0 10px;
+      gap: 10px;
     }
 
-    /* ===================== Logo intro block ===================== */
-    .logo-card {
-      position: relative;
-      width: min(760px, 92vw);
-      border-radius: 18px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.10);
-      box-shadow: 0 18px 70px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.04);
-      backdrop-filter: blur(10px);
-      padding: 18px 18px;
+    /* ===================== Logo (NO pane) ===================== */
+    .logoRow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 2px;
+      opacity: 0.95;
+    }
+
+    .logoSvg {
+      width: 28px;
+      height: 28px;
+      display: block;
+      filter: drop-shadow(0 14px 50px rgba(0,0,0,0.55));
+    }
+
+    .logoMiniText {
+      font-family: var(--aw-font-heading);
+      font-weight: 650;
+      letter-spacing: 0.14em;
+      font-size: 12px;
+      color: rgba(255,255,255,0.80);
+      transform: translateY(0.5px);
+    }
+
+    /* ===================== Typewriter (no jump, no clipping) ===================== */
+    .twBox {
+      display: inline-block;
+      text-align: left;
+      white-space: nowrap;
       overflow: hidden;
     }
 
-    .logo-card::before {
-      content:"";
-      position:absolute;
-      inset:-40%;
-      background: radial-gradient(circle at 30% 30%, rgba(245,124,0,0.10), transparent 55%);
-      filter: blur(18px);
-      opacity: 0.55;
-      pointer-events:none;
-    }
-
-    .logo-container {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 18px;
-      min-height: 76px;
-      z-index: 1;
-    }
-
-    .logo-svg {
-      width: 56px;
-      height: 56px;
-      filter: drop-shadow(0 18px 60px rgba(0,0,0,0.55));
-    }
-
-    /* text next to logo (fade in once) */
-    .logo-text {
-      opacity: 0;
-      font-family: var(--aw-font-heading);
-      font-size: clamp(16px, 2.1vw, 20px);
-      letter-spacing: 0.06em;
-      color: var(--aw-color-text-heading);
-      font-weight: 650;
-      transform: translateX(18px);
-      animation: fadeIn 0.95s cubic-bezier(0.2,0.85,0.2,1) forwards;
-      animation-delay: 1.3s; /* after first strokes start */
-      white-space: nowrap;
-    }
-
-    @keyframes fadeIn {
-      0% { opacity: 0; transform: translateX(18px); }
-      100% { opacity: 1; transform: translateX(0); }
-    }
-
-    /* ===================== Typewriter (no jump) ===================== */
-    .twBox { display: inline-block; text-align: left; white-space: nowrap; overflow: hidden; }
     .twLine {
       display: inline-block;
       white-space: nowrap;
       overflow: hidden;
-      padding-right: 8px;
+      padding-right: 10px;
       border-right: 2px solid rgba(245,124,0,0.55);
       font-family: var(--aw-font-heading);
-      letter-spacing: 0.08em;
     }
-    .twTitleWidth { width: 30ch; }
-    .twSubWidth   { width: 11ch; }
+
+    /* Fixed widths to prevent center "jump".
+       Make them slightly generous to avoid clipping with letter-spacing on mobile. */
+    .twTitleWidth { width: 32ch; }
+    .twSubWidth   { width: 16ch; }
 
     h1 {
       margin: 0;
       font-family: var(--aw-font-heading);
-      font-size: clamp(1.25rem, 3.2vw, 2.35rem);
+      font-size: clamp(1.22rem, 5.2vw, 2.25rem);
       font-weight: 650;
       letter-spacing: 0.06em;
       color: var(--aw-color-text-heading);
+      line-height: 1.05;
     }
 
     .sub {
       margin: 0;
+      font-family: var(--aw-font-sans);
       font-size: 0.95rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--aw-color-text-muted);
     }
 
-    /* ===================== Final Loader #01 ===================== */
+    /* ===================== Loader #01 (always runs) ===================== */
     @keyframes lSpin { to { transform: rotate(360deg); } }
 
     .heroLoader {
-      margin-top: 10px;
+      margin-top: 4px;            /* smaller gap */
       display: grid;
       place-items: center;
-      min-height: 84px;
+      min-height: 52px;           /* smaller reserved space */
     }
 
     .l1 {
-      width: 36px; height: 36px; position: relative;
-      border: 1px solid rgba(245,124,0,0.55);
-      border-radius: 12px;
-      animation: lSpin 3.1s linear infinite;
-      box-shadow: 0 0 26px rgba(245,124,0,0.10);
+      width: 30px;
+      height: 30px;
+      position: relative;
+      border: 1px solid rgba(245,124,0,0.60);
+      border-radius: 10px;
+      animation: lSpin 3.0s linear infinite;
+      box-shadow: 0 0 26px rgba(245,124,0,0.12);
     }
     .l1::before, .l1::after { content:""; position:absolute; background: rgba(245,124,0,0.55); }
     .l1::before { width: 100%; height: 1px; top: 50%; left: 0; transform: translateY(-0.5px); }
     .l1::after  { height: 100%; width: 1px; left: 50%; top: 0; transform: translateX(-0.5px); }
 
-    /* ===================== SVG Artista animations (play once) ===================== */
+    /* ===================== SVG Artista Logo draw (play once) ===================== */
     @-webkit-keyframes animate-svg-stroke-1 {
       0% { stroke-dashoffset: 28.628747940063477px; stroke-dasharray: 28.628747940063477px; }
       100% { stroke-dashoffset: 0; stroke-dasharray: 28.628747940063477px; }
@@ -280,13 +259,13 @@
     .svg-elem-6 { -webkit-animation: animate-svg-stroke-6 0.4s cubic-bezier(0.47, 0, 0.745, 0.715) 2.5s both;
                           animation: animate-svg-stroke-6 0.4s cubic-bezier(0.47, 0, 0.745, 0.715) 2.5s both; }
 
-    /* Reduced motion */
+    /* Reduced motion:
+       We keep the loader spinning even if reduce-motion is enabled (per your request).
+       We only stop background shimmer and the SVG draw if needed. */
     @media (prefers-reduced-motion: reduce) {
       body::before, body::after { display:none; }
       .twLine { border-right: none; }
-      .l1 { animation: none !important; }
       .svg-elem-1, .svg-elem-2, .svg-elem-3, .svg-elem-4, .svg-elem-5, .svg-elem-6 { animation: none !important; }
-      .logo-text { animation: none !important; opacity: 1 !important; transform: none !important; }
     }
   </style>
 </head>
@@ -294,59 +273,55 @@
 <body>
   <div class="page">
     <main class="stack">
-      <!-- Logo intro (play once) -->
-      <div class="logo-card" aria-label="SCS logo intro">
-        <div class="logo-container">
-          <!-- Replace this SVG with your own (keep .svg-elem-* classes) -->
-          <svg class="logo-svg" viewBox="0 0 39.1 39.1" xmlns="http://www.w3.org/2000/svg"
-               style="fill:none; stroke-width:0.7; stroke: rgb(254,255,255);">
-            <g transform="translate(-48.794556,-43.121355)">
-              <path class="svg-elem-1" d="m 65.886941,60.569394 11.58569,6.51888 -11.58196,6.6091"
-                    style="fill:none; stroke-linecap:round; stroke-linejoin:round;" />
-              <path class="svg-elem-2" d="m 70.832097,54.65205 -11.58569,6.51888 11.58196,6.6091"
-                    style="fill:none; stroke-linecap:round; stroke-linejoin:round;" />
-              <circle class="svg-elem-3" cx="98.409592" cy="24.861135" r="2.3036535"
-                      transform="matrix(0,0.87683752,-0.87683752,0,82.920084,-38.028367)"
-                      style="fill:none; stroke-linejoin:round;" />
-              <circle class="svg-elem-4" cx="96.595795" cy="16.605768" r="2.3036535"
-                      transform="matrix(0,0.87683752,-0.87683752,0,82.920084,-38.028367)"
-                      style="fill:none; stroke-linejoin:round;" />
-              <circle class="svg-elem-5" cx="98.576675" cy="8.350399" r="2.3036535"
-                      transform="matrix(0,0.87683752,-0.87683752,0,82.920084,-38.028367)"
-                      style="fill:none; stroke-linejoin:round;" />
-              <path class="svg-elem-6"
-                    d="m 80.800874,51.972783 c 3.33744,3.23235 5.30028,7.75854 5.04277,12.68188 -0.48633,9.29851 -8.70847,16.49248 -18.36469,16.0682 -9.65622,-0.42429 -17.08986,-8.3062 -16.60355,-17.60471 0.23128,-4.42211 2.21216,-8.36823 5.26481,-11.24532"
-                    style="fill:none; stroke-linecap:round; stroke-linejoin:round;" />
-            </g>
-          </svg>
-
-          <div class="logo-text">SCS</div>
-        </div>
+      <!-- LOGO small, no pane -->
+      <div class="logoRow" aria-label="SCS logo">
+        <!-- Replace with your logo.svg if you want; this is your animated mark -->
+        <svg class="logoSvg" viewBox="0 0 39.1 39.1" xmlns="http://www.w3.org/2000/svg"
+             style="fill:none; stroke-width:0.7; stroke: rgb(254,255,255);">
+          <g transform="translate(-48.794556,-43.121355)">
+            <path class="svg-elem-1" d="m 65.886941,60.569394 11.58569,6.51888 -11.58196,6.6091"
+                  style="fill:none; stroke-linecap:round; stroke-linejoin:round;" />
+            <path class="svg-elem-2" d="m 70.832097,54.65205 -11.58569,6.51888 11.58196,6.6091"
+                  style="fill:none; stroke-linecap:round; stroke-linejoin:round;" />
+            <circle class="svg-elem-3" cx="98.409592" cy="24.861135" r="2.3036535"
+                    transform="matrix(0,0.87683752,-0.87683752,0,82.920084,-38.028367)"
+                    style="fill:none; stroke-linejoin:round;" />
+            <circle class="svg-elem-4" cx="96.595795" cy="16.605768" r="2.3036535"
+                    transform="matrix(0,0.87683752,-0.87683752,0,82.920084,-38.028367)"
+                    style="fill:none; stroke-linejoin:round;" />
+            <circle class="svg-elem-5" cx="98.576675" cy="8.350399" r="2.3036535"
+                    transform="matrix(0,0.87683752,-0.87683752,0,82.920084,-38.028367)"
+                    style="fill:none; stroke-linejoin:round;" />
+            <path class="svg-elem-6"
+                  d="m 80.800874,51.972783 c 3.33744,3.23235 5.30028,7.75854 5.04277,12.68188 -0.48633,9.29851 -8.70847,16.49248 -18.36469,16.0682 -9.65622,-0.42429 -17.08986,-8.3062 -16.60355,-17.60471 0.23128,-4.42211 2.21216,-8.36823 5.26481,-11.24532"
+                  style="fill:none; stroke-linecap:round; stroke-linejoin:round;" />
+          </g>
+        </svg>
+        <div class="logoMiniText">SCS</div>
       </div>
 
-      <!-- Title + coming soon (typewriter one-shot, starts AFTER logo intro) -->
+      <!-- Title -->
       <h1>
-        <span class="twBox twTitleWidth"><span id="twTitle" class="twLine"></span></span>
+        <span class="twBox twTitleWidth">
+          <span id="twTitle" class="twLine"></span>
+        </span>
       </h1>
 
+      <!-- Coming soon -->
       <p class="sub">
-        <span class="twBox twSubWidth"><span id="twSub" class="twLine"></span></span>
+        <span class="twBox twSubWidth">
+          <span id="twSub" class="twLine"></span>
+        </span>
       </p>
 
-      <!-- Final loader (appears after typewriter) -->
+      <!-- Loader -->
       <div class="heroLoader" aria-label="Loading">
-        <div id="finalLoader" class="l1" style="opacity:0; transform: translateY(6px) scale(.96);"></div>
+        <div id="finalLoader" class="l1" style="opacity:0; transform: translateY(4px) scale(.98);"></div>
       </div>
     </main>
   </div>
 
   <script>
-    // Sequencing:
-    // 1) Logo draws (CSS runs immediately, ~2.9s last stroke starts)
-    // 2) Start title typewriter after logo intro window
-    // 3) Then "Coming Soon"
-    // 4) Then reveal loader #01 and loop spinner
-
     (function () {
       const titleEl = document.getElementById("twTitle");
       const subEl = document.getElementById("twSub");
@@ -355,9 +330,8 @@
       const titleText = "Spiess Consulting & Solutions";
       const subText = "Coming Soon";
 
-      // Approx: last svg stroke starts at 2.5s and lasts 0.4s → ~2.9s
-      // Add a small premium beat:
-      const LOGO_INTRO_TOTAL_MS = 3100;
+      // Your SVG draws until ~2.9s. Add a small beat so it feels intentional.
+      const LOGO_INTRO_TOTAL_MS = 3050;
 
       function typeOnce(el, text, opts) {
         const o = Object.assign({ startDelay: 0, charDelay: 26, hideCursorAfterMs: 520 }, opts || {});
@@ -367,7 +341,10 @@
             i++;
             el.textContent = text.slice(0, i);
             if (i < text.length) setTimeout(tick, o.charDelay);
-            else setTimeout(() => { el.style.borderRight = "none"; resolve(); }, o.hideCursorAfterMs);
+            else setTimeout(() => {
+              el.style.borderRight = "none";
+              resolve();
+            }, o.hideCursorAfterMs);
           }
           setTimeout(tick, o.startDelay);
         });
@@ -376,7 +353,7 @@
       function showFinalLoader() {
         if (!finalLoader) return;
         finalLoader.style.transition =
-          "opacity 520ms cubic-bezier(0.2,0.85,0.2,1), transform 520ms cubic-bezier(0.2,0.85,0.2,1)";
+          "opacity 420ms cubic-bezier(0.2,0.85,0.2,1), transform 420ms cubic-bezier(0.2,0.85,0.2,1)";
         finalLoader.style.opacity = "1";
         finalLoader.style.transform = "translateY(0) scale(1)";
       }
@@ -384,8 +361,8 @@
       (async function run() {
         await new Promise((r) => setTimeout(r, LOGO_INTRO_TOTAL_MS));
         await typeOnce(titleEl, titleText, { charDelay: 26, hideCursorAfterMs: 520 });
-        await typeOnce(subEl, subText, { startDelay: 140, charDelay: 42, hideCursorAfterMs: 420 });
-        setTimeout(showFinalLoader, 120);
+        await typeOnce(subEl, subText, { startDelay: 120, charDelay: 42, hideCursorAfterMs: 420 });
+        setTimeout(showFinalLoader, 80);
       })();
     })();
   </script>
