@@ -12,11 +12,18 @@
 
   <style>
     :root{
-      --font: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      --bg: #0D0D0D;
-      --fg: #e5ecf6;
-      --fg2: rgba(229,236,246,.66);
-      --accent: #F57C00;
+      --aw-font-sans: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      --aw-font-heading: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+
+      --aw-ledger-accent: #F57C00;
+      --aw-ledger-accent-2: #FF8C00;
+
+      --aw-color-bg-page: #0D0D0D;
+      --aw-color-text-heading: #f7f8f8;
+      --aw-color-text-default: #e5ecf6;
+      --aw-color-text-muted: rgba(229,236,246,.66);
+
+      --logoSize: clamp(30px, 3.2vw, 44px);
     }
 
     *{ box-sizing:border-box; }
@@ -24,16 +31,17 @@
 
     body{
       margin:0;
-      font-family: var(--font);
+      font-family: var(--aw-font-sans);
       font-weight:300;
-      color: var(--fg);
+      color: var(--aw-color-text-default);
       overflow-x:hidden;
       background:
         radial-gradient(1100px 620px at 50% -20%, rgba(255,255,255,0.06), transparent 62%),
         radial-gradient(900px 520px at 20% 85%, rgba(255,255,255,0.03), transparent 65%),
-        var(--bg);
+        var(--aw-color-bg-page);
     }
 
+    /* subtle grid */
     body::before{
       content:"";
       position:fixed; inset:0;
@@ -46,6 +54,7 @@
       mask-image: radial-gradient(circle at 50% 42%, black 0 56%, transparent 80%);
     }
 
+    /* glass wash */
     body::after{
       content:"";
       position:fixed; inset:0;
@@ -60,52 +69,54 @@
       min-height:100vh;
       display:grid;
       place-items:center;
-      padding: 30px 18px 44px;
+      padding: 32px 18px 46px;
     }
 
     .stack{
-      width: min(860px, 100%);
+      width: min(920px, 100%);
       display:grid;
       justify-items:center;
       gap: 10px;
       text-align:center;
     }
 
-    /* ===== Logo + SCS (vertical centering fixed) ===== */
+    /* ===== Top row: Logo + SCS ===== */
     .logoRow{
       display:flex;
-      align-items:center;          /* main vertical center */
+      align-items:center;                 /* real vertical centering */
       justify-content:center;
-      gap: 12px;
+      gap: 14px;
       opacity:.95;
-      margin-bottom: 2px;
+      margin-bottom: 4px;
+      height: var(--logoSize);            /* locks vertical alignment */
     }
 
     .logoSvg{
-      width: 28px;
-      height: 28px;
-      display:block;               /* kill baseline */
-      transform: translateY(0.5px);/* tiny optical */
+      width: var(--logoSize);
+      height: var(--logoSize);
+      display:block;
+      transform: translateY(0.5px);       /* tiny optical correction */
       filter: drop-shadow(0 14px 50px rgba(0,0,0,0.55));
-    }
-
-    .scsWrap{
-      display:flex;
-      align-items:center;          /* vertical center for text */
-      height: 28px;               /* same as icon height -> perfect center */
+      opacity: .95;
     }
 
     .scsText{
+      font-family: var(--aw-font-sans);
       font-weight:300;
-      letter-spacing: .18em;
+      letter-spacing: .22em;
       font-size: 12px;
-      color: rgba(255,255,255,.72);
-      line-height: 1;             /* avoid baseline weirdness */
+      color: rgba(255,255,255,.70);
+      line-height: 1;
+      display:flex;
+      align-items:center;
+      height: var(--logoSize);
       white-space: nowrap;
-      transform: translateY(0px); /* no magic shifts needed now */
     }
 
-    /* ===== Typewriter: fixed-width centered box + left-aligned track ===== */
+    /* ===== Typewriter blocks (no jump + nice caret like your first example) =====
+       - We center a fixed px-width box.
+       - Inside: left-aligned track.
+       - Caret = border-right on track, blinks only while typing. */
     .twStage{
       width: 100%;
       display:grid;
@@ -113,7 +124,7 @@
     }
 
     .twBox{
-      width: var(--w, 0px);        /* set once in px (measured) */
+      width: var(--w, 0px);               /* JS sets px width */
       max-width: 100%;
       overflow:hidden;
       display:block;
@@ -124,68 +135,81 @@
       display:inline-block;
       white-space:nowrap;
       text-align:left;
-      border-right: 0 solid transparent;
+      border-right: 0 solid transparent;  /* caret off by default */
     }
 
-    /* Cursor: pseudo border on the track – cannot “fly” */
     .is-typing .twTrack{
-      border-right: 2px solid rgba(245,124,0,0.55);
-      padding-right: 10px;
-      animation: blink .9s step-end infinite;
+      border-right: 2px solid rgba(245,124,0,0.60);
+      animation: caretBlink 0.95s step-end infinite;
+      /* subtle glow like premium UI */
+      filter: drop-shadow(0 0 16px rgba(245,124,0,0.08));
     }
 
-    @keyframes blink { 50% { border-color: transparent; } }
+    @keyframes caretBlink { 50% { border-color: transparent; } }
 
-    /* ===== Typography ===== */
+    /* ===== Title / Sub ===== */
     h1{
       margin:0;
+      font-family: var(--aw-font-heading);
       font-weight:300;
-      font-size: clamp(1.18rem, 5.2vw, 2.20rem);
+      font-size: clamp(1.30rem, 5.0vw, 2.35rem);
       letter-spacing: .06em;
-      line-height: 1.18;
-      padding-bottom: .14em;       /* extra safety for descenders */
+      line-height: 1.16;
+      padding-bottom: .18em;              /* avoid descender clipping */
+      color: var(--aw-color-text-heading);
       width: 100%;
     }
 
     .sub{
       margin:0;
+      font-family: var(--aw-font-sans);
       font-weight:300;
       font-size: .95rem;
-      letter-spacing: .14em;
+      letter-spacing: .16em;
       text-transform: uppercase;
-      color: var(--fg2);
       line-height: 1.25;
-      padding-bottom: .08em;       /* extra safety (your “cut” issue) */
+      padding-bottom: .12em;              /* avoid clipping */
+      color: var(--aw-color-text-muted);
       width: 100%;
     }
 
     /* ===== Loader ===== */
     @keyframes spin { to { transform: rotate(360deg); } }
+
     .heroLoader{
       margin-top: 2px;
       display:grid;
       place-items:center;
-      min-height: 48px;
+      min-height: 52px;
     }
+
     .loaderWrap{
       opacity: 0;
       transform: translateY(6px) scale(0.98);
       will-change: opacity, transform;
     }
+
     .l1{
       width: 30px;
       height: 30px;
       position: relative;
-      border: 1px solid rgba(245,124,0,0.60);
+      border: 1px solid rgba(245,124,0,0.62);
       border-radius: 10px;
       animation: spin 3s linear infinite;
-      box-shadow: 0 0 26px rgba(245,124,0,0.12);
+      box-shadow:
+        0 0 0 1px rgba(245,124,0,0.04),
+        0 0 26px rgba(245,124,0,0.12);
     }
-    .l1::before,.l1::after{ content:""; position:absolute; background: rgba(245,124,0,0.55); }
-    .l1::before{ width:100%; height:1px; top:50%; left:0; transform: translateY(-.5px); }
-    .l1::after{ height:100%; width:1px; left:50%; top:0; transform: translateX(-.5px); }
 
-    /* ===== SVG draw (unchanged) ===== */
+    .l1::before,.l1::after{
+      content:"";
+      position:absolute;
+      background: rgba(245,124,0,0.55);
+    }
+    .l1::before{ width:100%; height:1px; top:50%; left:0; transform: translateY(-.5px); }
+    .l1::after { height:100%; width:1px; left:50%; top:0; transform: translateX(-.5px); }
+
+    /* ===== SVG Artista draw (unchanged) ===== */
     @-webkit-keyframes animate-svg-stroke-1 { 0%{stroke-dashoffset:28.628747940063477px;stroke-dasharray:28.628747940063477px;} 100%{stroke-dashoffset:0;stroke-dasharray:28.628747940063477px;} }
     @keyframes animate-svg-stroke-1 { 0%{stroke-dashoffset:28.628747940063477px;stroke-dasharray:28.628747940063477px;} 100%{stroke-dashoffset:0;stroke-dasharray:28.628747940063477px;} }
     .svg-elem-1 { -webkit-animation: animate-svg-stroke-1 0.4s cubic-bezier(0.47,0,0.745,0.715) 0s both; animation: animate-svg-stroke-1 0.4s cubic-bezier(0.47,0,0.745,0.715) 0s both; }
@@ -205,14 +229,14 @@
     @keyframes animate-svg-stroke-6 { 0%{stroke-dashoffset:82.78585052490234px;stroke-dasharray:82.78585052490234px;} 100%{stroke-dashoffset:0;stroke-dasharray:82.78585052490234px;} }
     .svg-elem-6 { -webkit-animation: animate-svg-stroke-6 0.4s cubic-bezier(0.47,0,0.745,0.715) 2.5s both; animation: animate-svg-stroke-6 0.4s cubic-bezier(0.47,0,0.745,0.715) 2.5s both; }
 
-    /* hidden measure */
+    /* hidden measurement */
     .measure{
       position:absolute; left:-99999px; top:-99999px;
       visibility:hidden; white-space:nowrap; pointer-events:none;
     }
-    .mSCS{ font-family: var(--font); font-weight:300; font-size:12px; letter-spacing:.18em; }
-    .mTitle{ font-family: var(--font); font-weight:300; font-size: clamp(1.18rem, 5.2vw, 2.20rem); letter-spacing:.06em; }
-    .mSub{ font-family: var(--font); font-weight:300; font-size:.95rem; letter-spacing:.14em; text-transform:uppercase; }
+    .mSCS{ font-family: var(--aw-font-sans); font-weight:300; font-size:12px; letter-spacing:.22em; }
+    .mTitle{ font-family: var(--aw-font-heading); font-weight:300; font-size: clamp(1.30rem, 5.0vw, 2.35rem); letter-spacing:.06em; }
+    .mSub{ font-family: var(--aw-font-sans); font-weight:300; font-size:.95rem; letter-spacing:.16em; text-transform:uppercase; }
   </style>
 </head>
 
@@ -230,25 +254,25 @@
              style="fill:none; stroke-width:0.7; stroke: rgb(254,255,255);">
           <g transform="translate(-48.794556,-43.121355)">
             <path class="svg-elem-1" d="m 65.886941,60.569394 11.58569,6.51888 -11.58196,6.6091"
-                  style="fill:none; stroke-linecap:round; stroke-linejoin:round;" />
+              style="fill:none; stroke-linecap:round; stroke-linejoin:round;" />
             <path class="svg-elem-2" d="m 70.832097,54.65205 -11.58569,6.51888 11.58196,6.6091"
-                  style="fill:none; stroke-linecap:round; stroke-linejoin:round;" />
+              style="fill:none; stroke-linecap:round; stroke-linejoin:round;" />
             <circle class="svg-elem-3" cx="98.409592" cy="24.861135" r="2.3036535"
-                    transform="matrix(0,0.87683752,-0.87683752,0,82.920084,-38.028367)"
-                    style="fill:none; stroke-linejoin:round;" />
+              transform="matrix(0,0.87683752,-0.87683752,0,82.920084,-38.028367)"
+              style="fill:none; stroke-linejoin:round;" />
             <circle class="svg-elem-4" cx="96.595795" cy="16.605768" r="2.3036535"
-                    transform="matrix(0,0.87683752,-0.87683752,0,82.920084,-38.028367)"
-                    style="fill:none; stroke-linejoin:round;" />
+              transform="matrix(0,0.87683752,-0.87683752,0,82.920084,-38.028367)"
+              style="fill:none; stroke-linejoin:round;" />
             <circle class="svg-elem-5" cx="98.576675" cy="8.350399" r="2.3036535"
-                    transform="matrix(0,0.87683752,-0.87683752,0,82.920084,-38.028367)"
-                    style="fill:none; stroke-linejoin:round;" />
+              transform="matrix(0,0.87683752,-0.87683752,0,82.920084,-38.028367)"
+              style="fill:none; stroke-linejoin:round;" />
             <path class="svg-elem-6"
-                  d="m 80.800874,51.972783 c 3.33744,3.23235 5.30028,7.75854 5.04277,12.68188 -0.48633,9.29851 -8.70847,16.49248 -18.36469,16.0682 -9.65622,-0.42429 -17.08986,-8.3062 -16.60355,-17.60471 0.23128,-4.42211 2.21216,-8.36823 5.26481,-11.24532"
-                  style="fill:none; stroke-linecap:round; stroke-linejoin:round;" />
+              d="m 80.800874,51.972783 c 3.33744,3.23235 5.30028,7.75854 5.04277,12.68188 -0.48633,9.29851 -8.70847,16.49248 -18.36469,16.0682 -9.65622,-0.42429 -17.08986,-8.3062 -16.60355,-17.60471 0.23128,-4.42211 2.21216,-8.36823 5.26481,-11.24532"
+              style="fill:none; stroke-linecap:round; stroke-linejoin:round;" />
           </g>
         </svg>
 
-        <div class="scsWrap twStage">
+        <div class="twStage">
           <div id="scsBox" class="twBox" style="--w:0px;">
             <span id="twSCS" class="twTrack scsText"></span>
           </div>
@@ -267,7 +291,7 @@
         </span>
       </p>
 
-      <div class="heroLoader">
+      <div class="heroLoader" aria-label="Loading">
         <div id="loaderWrap" class="loaderWrap">
           <div class="l1"></div>
         </div>
@@ -281,7 +305,7 @@
       const titleText = "Spiess Consulting & Solutions";
       const subText = "COMING SOON";
 
-      const els = {
+      const el = {
         scsBox: document.getElementById("scsBox"),
         titleBox: document.getElementById("titleBox"),
         subBox: document.getElementById("subBox"),
@@ -304,12 +328,10 @@
       }
 
       function lockWidths(){
-        const wSCS = measurePx(els.mSCS, scsText) + 16;
-        const wTitle = measurePx(els.mTitle, titleText) + 22;
-        const wSub = measurePx(els.mSub, subText) + 22;
-        els.scsBox.style.setProperty("--w", wSCS + "px");
-        els.titleBox.style.setProperty("--w", wTitle + "px");
-        els.subBox.style.setProperty("--w", wSub + "px");
+        // room for caret inside the clipped box (prevents any clipping artifacts)
+        el.scsBox.style.setProperty("--w", (measurePx(el.mSCS, scsText) + 18) + "px");
+        el.titleBox.style.setProperty("--w", (measurePx(el.mTitle, titleText) + 26) + "px");
+        el.subBox.style.setProperty("--w", (measurePx(el.mSub, subText) + 24) + "px");
       }
 
       function setTyping(boxEl, on){
@@ -318,7 +340,7 @@
       }
 
       function typeOnce(trackEl, boxEl, text, opts){
-        const o = Object.assign({ startDelay: 0, charDelay: 34, endDelay: 200 }, opts || {});
+        const o = Object.assign({ startDelay: 0, charDelay: 34, endDelay: 180 }, opts || {});
         return new Promise((resolve) => {
           let i = 0;
           trackEl.textContent = "";
@@ -331,7 +353,7 @@
               setTimeout(tick, o.charDelay);
             } else {
               setTimeout(() => {
-                setTyping(boxEl, false);   // cursor stops + disappears immediately (no blinking idle)
+                setTyping(boxEl, false); // caret stops blinking + disappears
                 resolve();
               }, o.endDelay);
             }
@@ -342,10 +364,10 @@
       }
 
       function showLoader(){
-        els.loaderWrap.style.transition =
+        el.loaderWrap.style.transition =
           "opacity 420ms cubic-bezier(0.2,0.85,0.2,1), transform 420ms cubic-bezier(0.2,0.85,0.2,1)";
-        els.loaderWrap.style.opacity = "1";
-        els.loaderWrap.style.transform = "translateY(0) scale(1)";
+        el.loaderWrap.style.opacity = "1";
+        el.loaderWrap.style.transform = "translateY(0) scale(1)";
       }
 
       (async function run(){
@@ -358,11 +380,12 @@
           t = setTimeout(lockWidths, 90);
         });
 
-        await new Promise(r => setTimeout(r, 3000)); // logo draw total
+        // wait for logo draw
+        await new Promise(r => setTimeout(r, 3000));
 
-        await typeOnce(els.scsTrack, els.scsBox, scsText, { charDelay: 90, endDelay: 120 });
-        await typeOnce(els.titleTrack, els.titleBox, titleText, { startDelay: 140, charDelay: 26, endDelay: 260 });
-        await typeOnce(els.subTrack, els.subBox, subText, { startDelay: 120, charDelay: 42, endDelay: 220 });
+        await typeOnce(el.scsTrack, el.scsBox, scsText, { charDelay: 95, endDelay: 120 });
+        await typeOnce(el.titleTrack, el.titleBox, titleText, { startDelay: 140, charDelay: 26, endDelay: 260 });
+        await typeOnce(el.subTrack, el.subBox, subText, { startDelay: 120, charDelay: 42, endDelay: 220 });
 
         setTimeout(showLoader, 60);
       })();
