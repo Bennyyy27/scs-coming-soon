@@ -19,9 +19,8 @@
       --fg-muted: rgba(229,236,246,.66);
       --accent: #F57C00;
 
-      /* tweakables */
       --logoSize: clamp(34px, 3.2vw, 46px);
-      --rowGap: 10px;
+      --rowGap: 12px;
     }
 
     *{ box-sizing:border-box; }
@@ -79,9 +78,9 @@
       text-align:center;
     }
 
-    /* ===== Logo + SCS ===== */
-    .logoRow{
-      display:inline-flex;
+    /* ===== Logo group (logo + SCS) ===== */
+    .logoGroup{
+      display:flex;
       align-items:center;
       justify-content:center;
       gap: 14px;
@@ -96,56 +95,61 @@
       display:block;
       flex: 0 0 auto;
 
-      /* crisper rendering */
+      /* crisp */
       shape-rendering: geometricPrecision;
       text-rendering: geometricPrecision;
       vector-effect: non-scaling-stroke;
 
-      /* keep shadows very subtle to avoid raster-softening */
-      filter: drop-shadow(0 10px 30px rgba(0,0,0,0.45));
+      /* keep very subtle shadow only */
+      filter: drop-shadow(0 8px 22px rgba(0,0,0,0.38));
     }
 
-    /* IMPORTANT: do NOT use display:flex here (causes caret spanning full box) */
-    .scsText{
-      display:inline-block;
-      line-height: 1;
-      white-space: nowrap;
-      font-weight:300;
-      letter-spacing: .22em;
-      font-size: 12px;
-      color: rgba(255,255,255,.70);
-      transform: translateY(0.5px); /* optional micro optical align */
-    }
-
-    /* ===== Typewriter blocks =====
-       Keep fixed-width only for Title/Sub to prevent layout shift.
-       For SCS we use shrink-to-fit.
+    /* ===== Typewriter system (NO SHIFT) =====
+       - Reserve final width in px via CSS var --w
+       - Center the container as block with margin-inline:auto
+       - Put text absolute left inside the reserved box
+       -> typing never changes layout or centering
     */
-    .twBox{
+    .twLine{
       width: var(--w, 0px);
       max-width: 100%;
-      overflow:hidden;
-      display:inline-block;
-      margin-inline:auto;
-      text-align:left;
+      margin-inline: auto;
+      position: relative;
+      overflow: hidden;
+      display:block;
     }
 
-    .twTrack{
-      display:inline-block;
+    .twText{
+      position:absolute;
+      left:0;
+      top:0;
       white-space:nowrap;
-      text-align:left;
-      border-right: 0 solid transparent;
+      display:inline-block;
     }
 
-    .is-typing .twTrack{
+    .twTyping .twText::after{
+      content:"";
+      display:inline-block;
+      margin-left: 2px;
+      height: 1em;
       border-right: 2px solid rgba(245,124,0,0.60);
+      transform: translateY(0.08em);
       animation: caretBlink 0.95s step-end infinite;
       filter: drop-shadow(0 0 16px rgba(245,124,0,0.08));
     }
 
     @keyframes caretBlink { 50% { border-color: transparent; } }
 
-    /* ===== Title / Sub ===== */
+    /* ===== Typography ===== */
+    .scsText{
+      font-weight:300;
+      letter-spacing: .22em;
+      font-size: 12px;
+      color: rgba(255,255,255,.70);
+      line-height: 1;
+      transform: translateY(0.5px);
+    }
+
     h1{
       margin:0;
       width:100%;
@@ -169,6 +173,18 @@
       color: var(--fg-muted);
     }
 
+    /* Ensure the reserved boxes are centered visually in their parents */
+    .h1Wrap, .subWrap{
+      width: 100%;
+      display:flex;
+      justify-content:center;
+    }
+
+    /* Give each reserved line a stable height so absolute text sits correctly */
+    .twLine.isSCS{ height: 14px; }
+    .twLine.isTitle{ height: 1.25em; }
+    .twLine.isSub{ height: 1.25em; }
+
     /* ===== Loader ===== */
     @keyframes spin { to { transform: rotate(360deg); } }
 
@@ -185,7 +201,6 @@
       display:inline-flex;
       align-items:center;
       justify-content:center;
-
       opacity: 0;
       transform: translateY(6px) scale(0.985);
       will-change: opacity, transform;
@@ -236,6 +251,7 @@
       position:absolute; left:-99999px; top:-99999px;
       visibility:hidden; white-space:nowrap; pointer-events:none;
     }
+    .mSCS{ font-family: var(--font); font-weight:300; font-size:12px; letter-spacing:.22em; }
     .mTitle{ font-family: var(--font); font-weight:300; font-size: clamp(1.30rem, 5.0vw, 2.35rem); letter-spacing:.06em; }
     .mSub{ font-family: var(--font); font-weight:300; font-size:.95rem; letter-spacing:.16em; text-transform:uppercase; }
   </style>
@@ -243,13 +259,15 @@
 
 <body>
   <div class="measure">
+    <span id="mSCS" class="mSCS"></span>
     <span id="mTitle" class="mTitle"></span>
     <span id="mSub" class="mSub"></span>
   </div>
 
   <div class="page">
     <main class="stack">
-      <div class="logoRow">
+      <!-- Logo + SCS: one centered group -->
+      <div class="logoGroup" aria-label="SCS mark">
         <svg class="logoSvg" viewBox="0 0 39.1 39.1" xmlns="http://www.w3.org/2000/svg"
              style="fill:none; stroke-width:0.7; stroke: rgb(254,255,255);">
           <g transform="translate(-48.794556,-43.121355)">
@@ -272,24 +290,31 @@
           </g>
         </svg>
 
-        <!-- SCS: no fixed-width box. This fixes both centering + caret length. -->
-        <span id="scsBox" class="is-typing" style="display:inline-block;">
-          <span id="twSCS" class="twTrack scsText"></span>
+        <!-- Reserved-width SCS line, but typed left-to-right -->
+        <span id="scsLine" class="twLine isSCS" style="--w:0px;">
+          <span id="twSCS" class="twText scsText"></span>
         </span>
       </div>
 
-      <h1>
-        <span id="titleBox" class="twBox" style="--w:0px;">
-          <span id="twTitle" class="twTrack"></span>
-        </span>
-      </h1>
+      <!-- Title -->
+      <div class="h1Wrap">
+        <h1>
+          <span id="titleLine" class="twLine isTitle" style="--w:0px;">
+            <span id="twTitle" class="twText"></span>
+          </span>
+        </h1>
+      </div>
 
-      <p class="sub">
-        <span id="subBox" class="twBox" style="--w:0px;">
-          <span id="twSub" class="twTrack"></span>
-        </span>
-      </p>
+      <!-- Sub -->
+      <div class="subWrap">
+        <p class="sub">
+          <span id="subLine" class="twLine isSub" style="--w:0px;">
+            <span id="twSub" class="twText"></span>
+          </span>
+        </p>
+      </div>
 
+      <!-- Loader -->
       <div class="heroLoader" aria-label="Loading">
         <div id="loaderWrap" class="loaderWrap">
           <div class="l1"></div>
@@ -300,20 +325,24 @@
 
   <script>
     (function(){
-      const scsText = "SCS";
-      const titleText = "Spiess Consulting & Solutions";
-      const subText = "COMING SOON";
+      const TEXT = {
+        scs: "SCS",
+        title: "Spiess Consulting & Solutions",
+        sub: "COMING SOON",
+      };
 
       const el = {
-        titleBox: document.getElementById("titleBox"),
-        subBox: document.getElementById("subBox"),
-        scsBox: document.getElementById("scsBox"),
+        scsLine: document.getElementById("scsLine"),
+        titleLine: document.getElementById("titleLine"),
+        subLine: document.getElementById("subLine"),
 
-        scsTrack: document.getElementById("twSCS"),
-        titleTrack: document.getElementById("twTitle"),
-        subTrack: document.getElementById("twSub"),
+        scsText: document.getElementById("twSCS"),
+        titleText: document.getElementById("twTitle"),
+        subText: document.getElementById("twSub"),
 
         loaderWrap: document.getElementById("loaderWrap"),
+
+        mSCS: document.getElementById("mSCS"),
         mTitle: document.getElementById("mTitle"),
         mSub: document.getElementById("mSub"),
       };
@@ -324,34 +353,35 @@
 
       function measurePx(measureEl, text){
         measureEl.textContent = text;
+        // ceil -> stable reserved width, prevents subpixel reflow
         return Math.ceil(measureEl.getBoundingClientRect().width);
       }
 
       function lockWidths(){
-        // Only lock Title/Sub widths (SCS is shrink-to-fit now)
-        el.titleBox.style.setProperty("--w", (measurePx(el.mTitle, titleText) + 26) + "px");
-        el.subBox.style.setProperty("--w", (measurePx(el.mSub, subText) + 24) + "px");
+        // reserve exact final widths (no “rutscht”)
+        el.scsLine.style.setProperty("--w", (measurePx(el.mSCS, TEXT.scs) + 2) + "px");
+        el.titleLine.style.setProperty("--w", (measurePx(el.mTitle, TEXT.title) + 2) + "px");
+        el.subLine.style.setProperty("--w", (measurePx(el.mSub, TEXT.sub) + 2) + "px");
       }
 
-      function setTyping(boxEl, on){
-        if(on) boxEl.classList.add("is-typing");
-        else boxEl.classList.remove("is-typing");
+      function setTyping(lineEl, on){
+        if(on) lineEl.classList.add("twTyping");
+        else lineEl.classList.remove("twTyping");
       }
 
-      function typeOnce(trackEl, boxEl, text, opts){
+      function typeOnce(textEl, lineEl, text, opts){
         const o = Object.assign({ startDelay: 0, charDelay: 34, endDelay: 180 }, opts || {});
         return new Promise((resolve) => {
           let i = 0;
-          trackEl.textContent = "";
-          setTyping(boxEl, true);
+          textEl.textContent = "";
+          setTyping(lineEl, true);
 
           function tick(){
             i++;
-            trackEl.textContent = text.slice(0, i);
+            textEl.textContent = text.slice(0, i);
             if(i < text.length) setTimeout(tick, o.charDelay);
-            else setTimeout(() => { setTyping(boxEl, false); resolve(); }, o.endDelay);
+            else setTimeout(() => { setTyping(lineEl, false); resolve(); }, o.endDelay);
           }
-
           setTimeout(tick, o.startDelay);
         });
       }
@@ -373,11 +403,12 @@
           t = setTimeout(lockWidths, 90);
         });
 
-        await new Promise(r => setTimeout(r, 3000)); // logo draw duration
+        // wait for SVG draw animation
+        await new Promise(r => setTimeout(r, 3000));
 
-        await typeOnce(el.scsTrack, el.scsBox, scsText, { charDelay: 95, endDelay: 120 });
-        await typeOnce(el.titleTrack, el.titleBox, titleText, { startDelay: 140, charDelay: 26, endDelay: 260 });
-        await typeOnce(el.subTrack, el.subBox, subText, { startDelay: 120, charDelay: 42, endDelay: 220 });
+        await typeOnce(el.scsText, el.scsLine, TEXT.scs, { charDelay: 95, endDelay: 120 });
+        await typeOnce(el.titleText, el.titleLine, TEXT.title, { startDelay: 140, charDelay: 26, endDelay: 260 });
+        await typeOnce(el.subText, el.subLine, TEXT.sub, { startDelay: 120, charDelay: 42, endDelay: 220 });
 
         setTimeout(showLoader, 60);
       })();
