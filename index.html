@@ -127,16 +127,24 @@
       display:inline-block;
     }
 
-    .twTyping .twText::after{
+    /* Caret exists always (no layout jump), but only visible while typing */
+    .twText::after{
       content:"";
       display:inline-block;
       margin-left: 2px;
       height: 1em;
       border-right: 2px solid rgba(245,124,0,0.60);
       transform: translateY(0.08em);
-      animation: caretBlink 0.95s step-end infinite;
       filter: drop-shadow(0 0 16px rgba(245,124,0,0.08));
+      opacity: 0;              /* default hidden */
     }
+    
+    /* visible + blinking only while typing */
+    .twTyping .twText::after{
+      opacity: 1;
+      animation: caretBlink 0.95s step-end infinite;
+    }
+
 
     @keyframes caretBlink { 50% { border-color: transparent; } }
 
