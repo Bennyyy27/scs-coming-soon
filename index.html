@@ -70,23 +70,22 @@
       padding: 36px 18px 52px;
     }
 
-    /* One single centering context: the column is centered, all children align to it */
     .stack{
       width:min(920px, 100%);
       display:flex;
       flex-direction:column;
-      align-items:center;   /* single source of truth */
+      align-items:center;
       gap: var(--rowGap);
       text-align:center;
     }
 
     /* ===== Logo + SCS ===== */
     .logoRow{
-      display:inline-flex;         /* IMPORTANT: inline-flex avoids full-width stretching */
+      display:inline-flex;
       align-items:center;
       justify-content:center;
       gap: 14px;
-      height: var(--logoSize);
+      line-height: 1;
       opacity:.95;
       margin-bottom: 2px;
     }
@@ -95,29 +94,32 @@
       width: var(--logoSize);
       height: var(--logoSize);
       display:block;
-      /* optical: keep very subtle; do NOT counter-shift text */
-      transform: translateY(0.35px);
-      filter: drop-shadow(0 14px 50px rgba(0,0,0,0.55));
-      opacity: .95;
       flex: 0 0 auto;
+
+      /* crisper rendering */
+      shape-rendering: geometricPrecision;
+      text-rendering: geometricPrecision;
+      vector-effect: non-scaling-stroke;
+
+      /* keep shadows very subtle to avoid raster-softening */
+      filter: drop-shadow(0 10px 30px rgba(0,0,0,0.45));
     }
 
+    /* IMPORTANT: do NOT use display:flex here (causes caret spanning full box) */
     .scsText{
-      display:flex;
-      align-items:center;
-      height: var(--logoSize);
+      display:inline-block;
       line-height: 1;
       white-space: nowrap;
       font-weight:300;
       letter-spacing: .22em;
       font-size: 12px;
       color: rgba(255,255,255,.70);
+      transform: translateY(0.5px); /* optional micro optical align */
     }
 
-    /* ===== Typewriter blocks (single center logic) =====
-       - .twBox is inline-block with fixed px width
-       - centered via margin-inline:auto
-       - track is left-aligned inside box
+    /* ===== Typewriter blocks =====
+       Keep fixed-width only for Title/Sub to prevent layout shift.
+       For SCS we use shrink-to-fit.
     */
     .twBox{
       width: var(--w, 0px);
@@ -151,7 +153,7 @@
       font-size: clamp(1.30rem, 5.0vw, 2.35rem);
       letter-spacing: .06em;
       line-height: 1.16;
-      padding-bottom: .18em;   /* descender safety */
+      padding-bottom: .18em;
       color: #f7f8f8;
     }
 
@@ -171,13 +173,19 @@
     @keyframes spin { to { transform: rotate(360deg); } }
 
     .heroLoader{
-      display:grid;
-      place-items:center;
+      display:flex;
+      align-items:center;
+      justify-content:center;
       min-height: 54px;
       margin-top: 2px;
+      width: 100%;
     }
 
     .loaderWrap{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+
       opacity: 0;
       transform: translateY(6px) scale(0.985);
       will-change: opacity, transform;
@@ -228,7 +236,6 @@
       position:absolute; left:-99999px; top:-99999px;
       visibility:hidden; white-space:nowrap; pointer-events:none;
     }
-    .mSCS{ font-family: var(--font); font-weight:300; font-size:12px; letter-spacing:.22em; }
     .mTitle{ font-family: var(--font); font-weight:300; font-size: clamp(1.30rem, 5.0vw, 2.35rem); letter-spacing:.06em; }
     .mSub{ font-family: var(--font); font-weight:300; font-size:.95rem; letter-spacing:.16em; text-transform:uppercase; }
   </style>
@@ -236,14 +243,12 @@
 
 <body>
   <div class="measure">
-    <span id="mSCS" class="mSCS"></span>
     <span id="mTitle" class="mTitle"></span>
     <span id="mSub" class="mSub"></span>
   </div>
 
   <div class="page">
     <main class="stack">
-      <!-- Row: Logo + SCS (single inline-flex block => true center) -->
       <div class="logoRow">
         <svg class="logoSvg" viewBox="0 0 39.1 39.1" xmlns="http://www.w3.org/2000/svg"
              style="fill:none; stroke-width:0.7; stroke: rgb(254,255,255);">
@@ -267,7 +272,8 @@
           </g>
         </svg>
 
-        <span id="scsBox" class="twBox" style="--w:0px;">
+        <!-- SCS: no fixed-width box. This fixes both centering + caret length. -->
+        <span id="scsBox" class="is-typing" style="display:inline-block;">
           <span id="twSCS" class="twTrack scsText"></span>
         </span>
       </div>
@@ -299,14 +305,15 @@
       const subText = "COMING SOON";
 
       const el = {
-        scsBox: document.getElementById("scsBox"),
         titleBox: document.getElementById("titleBox"),
         subBox: document.getElementById("subBox"),
+        scsBox: document.getElementById("scsBox"),
+
         scsTrack: document.getElementById("twSCS"),
         titleTrack: document.getElementById("twTitle"),
         subTrack: document.getElementById("twSub"),
+
         loaderWrap: document.getElementById("loaderWrap"),
-        mSCS: document.getElementById("mSCS"),
         mTitle: document.getElementById("mTitle"),
         mSub: document.getElementById("mSub"),
       };
@@ -321,7 +328,7 @@
       }
 
       function lockWidths(){
-        el.scsBox.style.setProperty("--w", (measurePx(el.mSCS, scsText) + 18) + "px");
+        // Only lock Title/Sub widths (SCS is shrink-to-fit now)
         el.titleBox.style.setProperty("--w", (measurePx(el.mTitle, titleText) + 26) + "px");
         el.subBox.style.setProperty("--w", (measurePx(el.mSub, subText) + 24) + "px");
       }
