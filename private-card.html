@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="de" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <title>Private Visitenkarte</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow, noarchive" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:opsz,wght@14..144,200..800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --aw-font-sans: "Montserrat Variable", sans-serif;
+      --aw-font-serif: "Montserrat Variable", sans-serif;
+      --aw-font-heading: "Montserrat Variable", sans-serif;
+
+      /* Light Mode (fallback) */
+      --aw-color-primary: rgb(255, 94, 0);
+      --aw-color-secondary: rgb(0, 102, 102);
+      --aw-color-accent: rgb(255, 140, 0);
+
+      --aw-color-bg-page: #ffffff;
+      --aw-color-bg-widget: #f5f5f5;
+      --aw-color-bg-widget-hover: #eeeeee;
+      --aw-color-bg-widget-active: #e0e0e0;
+
+      --aw-color-bg-widget-border: #cccccc;
+      --aw-color-bg-widget-border-hover: #bbbbbb;
+      --aw-color-bg-widget-border-active: #aaaaaa;
+      --aw-color-bg-widget-border-focus: #999999;
+
+      --aw-color-text-heading: #000;
+      --aw-color-text-default: #101010;
+      --aw-color-text-muted: rgba(16, 16, 16, 0.66);
+
+      --aw-radius-xl: 16px;
+      --aw-radius-2xl: 20px;
+      --aw-shadow-elev-2: 0 18px 70px rgba(0,0,0,0.22);
+      --aw-focus-ring: 0 0 0 3px color-mix(in oklab, var(--aw-color-primary) 40%, transparent);
+
+      ::selection{
+        background-color: var(--aw-color-primary);
+        color: white;
+      }
+    }
+
+    .dark{
+      --aw-font-sans: "Montserrat Variable", sans-serif;
+      --aw-font-serif: "Montserrat Variable", sans-serif;
+      --aw-font-heading: "Montserrat Variable", sans-serif;
+
+      --aw-color-primary: #F57C00;
+      --aw-color-secondary: #0A6678;
+      --aw-color-tertiary: #0FB472;
+      --aw-color-accent: #FF8C00;
+
+      --aw-color-bg-page: #0D0D0D;
+      --aw-color-bg-widget: #161616;
+      --aw-color-bg-widget-hover: #1F1F1F;
+      --aw-color-bg-widget-active: #2A2A2A;
+
+      --aw-color-bg-widget-border: #2C2C2C;
+      --aw-color-bg-widget-border-hover: #3A3A3A;
+      --aw-color-bg-widget-border-active: #4A4A4A;
+      --aw-color-bg-widget-border-focus: #5A5A5A;
+
+      --aw-color-bg-subtleUI: #3A3A3A;
+
+      --aw-color-text-heading: #f7f8f8;
+      --aw-color-text-default: #e5ecf6;
+      --aw-color-text-muted: rgba(229, 236, 246, 0.66);
+
+      --aw-radius-xl: 16px;
+      --aw-radius-2xl: 20px;
+      --aw-shadow-elev-2: 0 18px 70px rgba(0,0,0,0.22);
+      --aw-focus-ring: 0 0 0 3px color-mix(in oklab, var(--aw-color-primary) 40%, transparent);
+
+      ::selection{
+        background-color: var(--aw-color-primary);
+        color: white;
+      }
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+
+    body{
+      margin:0;
+      font-family: var(--aw-font-sans);
+      color: var(--aw-color-text-default);
+      background:
+        radial-gradient(1100px 620px at 50% -20%, rgba(255,255,255,0.06), transparent 62%),
+        radial-gradient(900px 520px at 18% 88%, rgba(255,255,255,0.03), transparent 65%),
+        var(--aw-color-bg-page);
+      display:grid;
+      place-items:center;
+      padding: 32px 16px;
+    }
+
+    .card{
+      width:min(560px, 100%);
+      background: color-mix(in oklab, var(--aw-color-bg-widget) 92%, transparent);
+      border: 1px solid var(--aw-color-bg-widget-border);
+      border-radius: var(--aw-radius-2xl);
+      padding: clamp(20px, 5vw, 34px);
+      box-shadow: var(--aw-shadow-elev-2);
+      backdrop-filter: blur(10px);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .card::before{
+      content:"";
+      position:absolute;
+      inset: -20% 20% auto -20%;
+      height: 180px;
+      background: radial-gradient(circle at 40% 40%, color-mix(in oklab, var(--aw-color-primary) 24%, transparent), transparent 70%);
+      pointer-events:none;
+    }
+
+    .badge{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      font-size: 12px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--aw-color-text-muted);
+      margin-bottom: 14px;
+    }
+
+    .name{
+      font-size: clamp(1.4rem, 3.6vw, 2.1rem);
+      font-weight: 400;
+      margin: 0 0 6px 0;
+      letter-spacing: .04em;
+    }
+
+    .role{
+      margin: 0 0 18px 0;
+      color: var(--aw-color-text-muted);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .row{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap: 14px;
+      padding: 10px 12px;
+      border: 1px solid var(--aw-color-bg-widget-border);
+      border-radius: var(--aw-radius-xl);
+      background: color-mix(in oklab, var(--aw-color-bg-widget-hover) 65%, transparent);
+    }
+
+    .label{
+      color: var(--aw-color-text-muted);
+      font-size: 12px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    .value{
+      font-size: 0.98rem;
+      font-weight: 300;
+    }
+
+    .value a{
+      color: var(--aw-color-text-default);
+      text-decoration:none;
+      border-bottom: 1px solid transparent;
+    }
+
+    .value a:hover{
+      border-bottom-color: var(--aw-color-primary);
+    }
+
+    .footer{
+      margin-top: 18px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      color: var(--aw-color-text-muted);
+      font-size: 12px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .dot{
+      width:8px; height:8px;
+      background: var(--aw-color-primary);
+      border-radius:999px;
+      box-shadow: 0 0 12px color-mix(in oklab, var(--aw-color-primary) 55%, transparent);
+    }
+
+    @media (min-width: 560px){
+      .grid{
+        grid-template-columns: 1fr 1fr;
+      }
+      .row.full{
+        grid-column: 1 / -1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="card" aria-label="Private Visitenkarte">
+    <div class="badge">
+      <span class="dot" aria-hidden="true"></span>
+      <span>Private Card</span>
+    </div>
+
+    <h1 class="name">Vorname Nachname</h1>
+    <p class="role">Rolle / Position</p>
+
+    <section class="grid" aria-label="Kontakt">
+      <div class="row">
+        <span class="label">Telefon</span>
+        <span class="value"><a href="tel:+49XXXXXXXXXX">+49 XX XXX XX</a></span>
+      </div>
+      <div class="row">
+        <span class="label">Email</span>
+        <span class="value"><a href="mailto:hello@example.com">hello@example.com</a></span>
+      </div>
+      <div class="row full">
+        <span class="label">Web</span>
+        <span class="value"><a href="https://example.com" rel="noopener">example.com</a></span>
+      </div>
+      <div class="row full">
+        <span class="label">Adresse</span>
+        <span class="value">Strasse 1, 12345 Stadt</span>
+      </div>
+    </section>
+
+    <div class="footer">
+      <span>Private Access</span>
+      <span>SCS</span>
+    </div>
+  </main>
+</body>
+</html>
