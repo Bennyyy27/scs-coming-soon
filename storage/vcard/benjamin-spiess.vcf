@@ -1,0 +1,13 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Spieß;Benjamin;;Dr.-Ing.;
+FN:Dr.-Ing. Benjamin Spieß
+TITLE:Founder / Lead Domain Office
+ORG:Spiess Consulting & Solutions
+TEL;TYPE=CELL:+4917623764654
+EMAIL;TYPE=WORK:work@benjamin-spiess.de
+ADR;TYPE=WORK:;;Weiden in der Oberpfalz;;;Germany
+URL:https://spiess-consulting-solutions.de
+X-SOCIALPROFILE;TYPE=linkedin:https://linkedin.com/in/benjamin-spiess
+NOTE:Remote
+END:VCARD

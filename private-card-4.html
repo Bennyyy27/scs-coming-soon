@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="de" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <title>Private Card — Offset Ledger</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow, noarchive" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root{ --bg:#0D0D0D; --bg2:#0A0B0E; --text:#f0f2f5; --muted:rgba(240,242,245,.6); --border:rgba(255,255,255,.10); }
+    *{box-sizing:border-box;} html,body{height:100%;}
+    body{margin:0; font-family:"Montserrat",system-ui; color:var(--text); background:linear-gradient(180deg,var(--bg),var(--bg2)); display:grid; place-items:center; padding:24px;}
+    .card{width:min(920px,100%); border:1px solid var(--border); border-radius:18px; background:rgba(255,255,255,.02); padding:22px; position:relative;}
+    .card::before{content:""; position:absolute; inset:12px; border:1px solid rgba(255,255,255,.05); border-radius:14px; pointer-events:none;}
+
+    .header{display:grid; grid-template-columns: 1fr 200px; gap:16px; align-items:center;}
+    .identity{display:grid; grid-template-columns: 160px 1fr; gap:16px; align-items:center;}
+    .photo{width:150px; height:150px; border-radius:16px; overflow:hidden; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.02);} 
+    .photo img{width:100%; height:100%; object-fit:cover; filter:contrast(1.05) grayscale(6%);} 
+
+    .degree{font-size:11px; letter-spacing:.26em; text-transform:uppercase; color:var(--muted); margin:0;}
+    .name{margin:6px 0 0; font-size:clamp(1.6rem,4.1vw,2.4rem); font-weight:300;}
+    .role{margin:6px 0 0; font-size:.78rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted);} 
+    .meta{margin:8px 0 0; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted);} 
+    .focus{margin:6px 0 0; font-size:13px; color:rgba(240,242,245,.72);} 
+
+    .scs{position:absolute; right:18px; bottom:18px; width:42px; opacity:.7;}
+
+    .rail{border-left:1px solid rgba(255,255,255,.08); padding-left:14px; display:grid; gap:10px;}
+    .pill{font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--muted);} 
+    .link{color:var(--text); text-decoration:none; border-bottom:1px solid rgba(255,255,255,.18);} 
+
+    .rows{margin-top:16px; display:grid; gap:8px;}
+    .row{display:grid; grid-template-columns: 140px 1fr; gap:12px; align-items:center; padding:8px 0; border-bottom:1px solid rgba(255,255,255,.06);} 
+    .row:last-child{border-bottom:none;} 
+    .label{font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--muted);} 
+    .value{text-align:right; font-size:14px; letter-spacing:-.01em;} 
+    .value a{color:var(--text); text-decoration:none; border-bottom:1px solid rgba(255,255,255,.18);} 
+
+    .twLine{position:relative; display:inline-block; overflow:hidden; white-space:nowrap;}
+    .twText::after{content:""; display:inline-block; margin-left:2px; height:1em; border-right:2px solid rgba(245,124,0,.65); transform:translateY(0.08em); opacity:0;}
+    .twTyping .twText::after{opacity:1; animation:caretBlink 0.95s step-end infinite;}
+    @keyframes caretBlink{50%{border-color:transparent;}}
+
+    @media(max-width:900px){
+      .header{grid-template-columns:1fr;}
+      .identity{grid-template-columns:1fr;}
+      .photo{width:180px; height:180px;}
+      .row{grid-template-columns:1fr;}
+      .value{text-align:left;}
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <img class="scs" src="storage/logo/SCS_Logo_lightWhite_1mm-120x120.png" alt="SCS" />
+
+    <div class="header">
+      <div class="identity">
+        <div class="photo"><img src="storage/imgs/Signature-Benjamin.jpg" alt="Portrait of Dr.-Ing. Benjamin Spieß"></div>
+        <div>
+          <p class="degree"><span id="degreeLine" class="twLine"><span id="twDegree" class="twText">Dr.-Ing.</span></span></p>
+          <div class="name"><span id="nameLine" class="twLine"><span id="twName" class="twText">Benjamin Spieß</span></span></div>
+          <div class="role"><span id="roleLine" class="twLine"><span id="twRole" class="twText">Founder / Lead Domain Office</span></span></div>
+          <div class="meta">Weiden in der Oberpfalz · Remote</div>
+          <div class="focus">Digital Enablement · Strategy · Delivery</div>
+        </div>
+      </div>
+      <div class="rail">
+        <div class="pill">Web</div>
+        <a class="link" href="https://spiess-consulting-solutions.de">spiess-consulting-solutions.de</a>
+      </div>
+    </div>
+
+    <div class="rows">
+      <div class="row"><span class="label">Telefon</span><span class="value"><a href="tel:+4917623764654">+49 17623764654</a></span></div>
+      <div class="row"><span class="label">Email</span><span class="value"><a href="mailto:work@benjamin-spiess.de">work@benjamin-spiess.de</a></span></div>
+      <div class="row"><span class="label">Adresse</span><span class="value">Weiden in der Oberpfalz · Remote</span></div>
+    </div>
+  </main>
+
+  <script>
+    (function(){
+      const el = {
+        degreeLine: document.getElementById("degreeLine"),
+        nameLine: document.getElementById("nameLine"),
+        roleLine: document.getElementById("roleLine"),
+        degreeText: document.getElementById("twDegree"),
+        nameText: document.getElementById("twName"),
+        roleText: document.getElementById("twRole"),
+      };
+      function setTyping(lineEl, on){ if(on) lineEl.classList.add("twTyping"); else lineEl.classList.remove("twTyping"); }
+      function typeOnce(textEl, lineEl, text, opts){
+        const o = Object.assign({ startDelay:0, charDelay:28, endDelay:140 }, opts||{});
+        return new Promise((resolve)=>{
+          if(!textEl || !lineEl) return resolve();
+          let i = 0; textEl.textContent = ""; setTyping(lineEl, true);
+          function tick(){ i++; textEl.textContent = text.slice(0,i); if(i<text.length) setTimeout(tick,o.charDelay); else setTimeout(()=>{ setTyping(lineEl,false); resolve(); }, o.endDelay); }
+          setTimeout(tick, o.startDelay);
+        });
+      }
+      (async function run(){
+        const key = "scs-private-card-typed-4";
+        const TEXT = { degree: el.degreeText?.textContent || "Dr.-Ing.", name: el.nameText?.textContent || "Benjamin Spieß", role: el.roleText?.textContent || "Founder / Lead Domain Office" };
+        let already = false; try{ already = localStorage.getItem(key)==="1"; }catch{}
+        if(already){ if(el.degreeText) el.degreeText.textContent = TEXT.degree; if(el.nameText) el.nameText.textContent = TEXT.name; if(el.roleText) el.roleText.textContent = TEXT.role; return; }
+        await typeOnce(el.degreeText, el.degreeLine, TEXT.degree, { charDelay: 32, endDelay: 80 });
+        await typeOnce(el.nameText, el.nameLine, TEXT.name, { startDelay: 60, charDelay: 32, endDelay: 120 });
+        await typeOnce(el.roleText, el.roleLine, TEXT.role, { startDelay: 80, charDelay: 18, endDelay: 120 });
+        try{ localStorage.setItem(key, "1"); }catch{}
+      })();
+    })();
+  </script>
+</body>
+</html>

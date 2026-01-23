@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240">
+  <rect width="240" height="240" rx="16" fill="#141414"/>
+  <rect x="12" y="12" width="216" height="216" rx="12" fill="none" stroke="#2b2b2b" stroke-width="1"/>
+  <g opacity="0.22" stroke="#3a3a3a" stroke-width="1">
+    <path d="M40 20v200M80 20v200M120 20v200M160 20v200M200 20v200"/>
+    <path d="M20 40h200M20 80h200M20 120h200M20 160h200M20 200h200"/>
+  </g>
+  <rect x="28" y="28" width="48" height="48" rx="6" fill="none" stroke="#4a4a4a" stroke-width="2"/>
+  <rect x="164" y="28" width="48" height="48" rx="6" fill="none" stroke="#4a4a4a" stroke-width="2"/>
+  <rect x="28" y="164" width="48" height="48" rx="6" fill="none" stroke="#4a4a4a" stroke-width="2"/>
+  <text x="120" y="128" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#7a7a7a" letter-spacing="2">QR</text>
+</svg>

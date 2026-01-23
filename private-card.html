@@ -2,250 +2,232 @@
 <html lang="de" class="dark">
 <head>
   <meta charset="UTF-8" />
-  <title>Private Visitenkarte</title>
+  <title>Private Card — Orbit Plate</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex, nofollow, noarchive" />
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:opsz,wght@14..144,200..800&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --aw-font-sans: "Montserrat Variable", sans-serif;
-      --aw-font-serif: "Montserrat Variable", sans-serif;
-      --aw-font-heading: "Montserrat Variable", sans-serif;
-
-      /* Light Mode (fallback) */
-      --aw-color-primary: rgb(255, 94, 0);
-      --aw-color-secondary: rgb(0, 102, 102);
-      --aw-color-accent: rgb(255, 140, 0);
-
-      --aw-color-bg-page: #ffffff;
-      --aw-color-bg-widget: #f5f5f5;
-      --aw-color-bg-widget-hover: #eeeeee;
-      --aw-color-bg-widget-active: #e0e0e0;
-
-      --aw-color-bg-widget-border: #cccccc;
-      --aw-color-bg-widget-border-hover: #bbbbbb;
-      --aw-color-bg-widget-border-active: #aaaaaa;
-      --aw-color-bg-widget-border-focus: #999999;
-
-      --aw-color-text-heading: #000;
-      --aw-color-text-default: #101010;
-      --aw-color-text-muted: rgba(16, 16, 16, 0.66);
-
-      --aw-radius-xl: 16px;
-      --aw-radius-2xl: 20px;
-      --aw-shadow-elev-2: 0 18px 70px rgba(0,0,0,0.22);
-      --aw-focus-ring: 0 0 0 3px color-mix(in oklab, var(--aw-color-primary) 40%, transparent);
-
-      ::selection{
-        background-color: var(--aw-color-primary);
-        color: white;
-      }
-    }
-
-    .dark{
-      --aw-font-sans: "Montserrat Variable", sans-serif;
-      --aw-font-serif: "Montserrat Variable", sans-serif;
-      --aw-font-heading: "Montserrat Variable", sans-serif;
-
-      --aw-color-primary: #F57C00;
-      --aw-color-secondary: #0A6678;
-      --aw-color-tertiary: #0FB472;
-      --aw-color-accent: #FF8C00;
-
-      --aw-color-bg-page: #0D0D0D;
-      --aw-color-bg-widget: #161616;
-      --aw-color-bg-widget-hover: #1F1F1F;
-      --aw-color-bg-widget-active: #2A2A2A;
-
-      --aw-color-bg-widget-border: #2C2C2C;
-      --aw-color-bg-widget-border-hover: #3A3A3A;
-      --aw-color-bg-widget-border-active: #4A4A4A;
-      --aw-color-bg-widget-border-focus: #5A5A5A;
-
-      --aw-color-bg-subtleUI: #3A3A3A;
-
-      --aw-color-text-heading: #f7f8f8;
-      --aw-color-text-default: #e5ecf6;
-      --aw-color-text-muted: rgba(229, 236, 246, 0.66);
-
-      --aw-radius-xl: 16px;
-      --aw-radius-2xl: 20px;
-      --aw-shadow-elev-2: 0 18px 70px rgba(0,0,0,0.22);
-      --aw-focus-ring: 0 0 0 3px color-mix(in oklab, var(--aw-color-primary) 40%, transparent);
-
-      ::selection{
-        background-color: var(--aw-color-primary);
-        color: white;
-      }
-    }
-
-    *{ box-sizing:border-box; }
-    html,body{ height:100%; }
-
-    body{
-      margin:0;
-      font-family: var(--aw-font-sans);
-      color: var(--aw-color-text-default);
-      background:
-        radial-gradient(1100px 620px at 50% -20%, rgba(255,255,255,0.06), transparent 62%),
-        radial-gradient(900px 520px at 18% 88%, rgba(255,255,255,0.03), transparent 65%),
-        var(--aw-color-bg-page);
-      display:grid;
-      place-items:center;
-      padding: 32px 16px;
-    }
-
-    .card{
-      width:min(560px, 100%);
-      background: color-mix(in oklab, var(--aw-color-bg-widget) 92%, transparent);
-      border: 1px solid var(--aw-color-bg-widget-border);
-      border-radius: var(--aw-radius-2xl);
-      padding: clamp(20px, 5vw, 34px);
-      box-shadow: var(--aw-shadow-elev-2);
-      backdrop-filter: blur(10px);
-      position:relative;
-      overflow:hidden;
-    }
-
-    .card::before{
-      content:"";
+    :root{ --bg:#0D0D0D; --bg2:#0B0C0F; --text:#f0f2f5; --muted:rgba(240,242,245,.6); --border:rgba(255,255,255,.10); }
+    *{box-sizing:border-box;} html,body{height:100%;}
+    body{margin:0; font-family:"Montserrat",system-ui; color:var(--text); background:linear-gradient(180deg,var(--bg),var(--bg2)); display:grid; place-items:center; padding:24px;}
+    .plate{width:min(820px,100%); border:1px solid var(--border); border-radius:20px; background:rgba(255,255,255,.02); padding:24px; position:relative; overflow:hidden;}
+    .plate::before{content:""; position:absolute; inset:-20% auto auto -10%; width:60%; height:240px; background:radial-gradient(circle at 40% 40%, rgba(255,255,255,.06), transparent 70%); opacity:.5;}
+    .scanline{
       position:absolute;
-      inset: -20% 20% auto -20%;
-      height: 180px;
-      background: radial-gradient(circle at 40% 40%, color-mix(in oklab, var(--aw-color-primary) 24%, transparent), transparent 70%);
+      left:-20%;
+      top: 52%;
+      width: 70%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+      opacity: 0.16;
+      animation: scanMove 7.5s ease-in-out infinite;
       pointer-events:none;
+      z-index:1;
+    }
+    @keyframes scanMove{
+      0%{ transform: translateX(0); opacity: 0.08; }
+      45%{ opacity: 0.22; }
+      100%{ transform: translateX(260%); opacity: 0.08; }
+    }
+    .ring{position:absolute; right:-80px; bottom:-80px; width:220px; height:220px; border-radius:999px; border:1px solid rgba(255,255,255,.14); animation: ringPulse 4.8s ease-in-out infinite; box-shadow: 0 0 20px rgba(255,255,255,0.08);} 
+    .ring::after{content:""; position:absolute; inset:20px; border-radius:999px; border:1px dashed rgba(255,255,255,.10);} 
+    @keyframes ringPulse{
+      0%,100%{transform:scale(1); opacity:.55;}
+      50%{transform:scale(1.06); opacity:1;}
     }
 
-    .badge{
+    .layout{display:grid; grid-template-columns: 240px 1fr; gap:22px; align-items:center; position:relative; z-index:2;}
+    .photo{width:220px; height:220px; border-radius:22px; overflow:hidden; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.02);} 
+    .photo img{width:100%; height:100%; object-fit:cover; object-position: center 35%; filter:contrast(1.05) grayscale(6%);} 
+
+    .degree{font-size:11px; letter-spacing:.26em; text-transform:uppercase; color:var(--muted); margin:0;}
+    .name{margin:6px 0 0; font-size:clamp(1.7rem,4.2vw,2.6rem); font-weight:300;}
+    .role{margin:6px 0 0; font-size:.78rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted);} 
+    .meta{margin:8px 0 0; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted);} 
+    .focus{margin:6px 0 0; font-size:13px; color:rgba(240,242,245,.72);} 
+
+    .rows{margin-top:16px; display:grid; gap:10px;} 
+    .row{display:grid; grid-template-columns: 120px minmax(0,1fr); gap:10px; align-items:center; padding:6px 0; border-bottom:1px solid rgba(255,255,255,.06);} 
+    .row:last-child{border-bottom:none;} 
+    .label{font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--muted);} 
+    .value{text-align:right; font-size:14px; letter-spacing:-.01em;} 
+    .linkInline{
+      position:relative;
+      display:inline-block;
+      color:var(--text);
+      text-decoration:none;
+    }
+    .vcard{
+      margin-top: 14px;
       display:inline-flex;
-      gap:8px;
       align-items:center;
-      font-size: 12px;
+      gap:10px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 11px;
       letter-spacing: .22em;
       text-transform: uppercase;
-      color: var(--aw-color-text-muted);
-      margin-bottom: 14px;
-    }
-
-    .name{
-      font-size: clamp(1.4rem, 3.6vw, 2.1rem);
-      font-weight: 400;
-      margin: 0 0 6px 0;
-      letter-spacing: .04em;
-    }
-
-    .role{
-      margin: 0 0 18px 0;
-      color: var(--aw-color-text-muted);
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      font-size: 0.85rem;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
-
-    .row{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap: 14px;
-      padding: 10px 12px;
-      border: 1px solid var(--aw-color-bg-widget-border);
-      border-radius: var(--aw-radius-xl);
-      background: color-mix(in oklab, var(--aw-color-bg-widget-hover) 65%, transparent);
-    }
-
-    .label{
-      color: var(--aw-color-text-muted);
-      font-size: 12px;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-    }
-
-    .value{
-      font-size: 0.98rem;
-      font-weight: 300;
-    }
-
-    .value a{
-      color: var(--aw-color-text-default);
+      color: var(--text);
       text-decoration:none;
-      border-bottom: 1px solid transparent;
+      position:relative;
+      overflow:hidden;
+      transition: border-color .18s ease, background .18s ease, transform .18s ease;
     }
-
-    .value a:hover{
-      border-bottom-color: var(--aw-color-primary);
+    .vcard::after{
+      content:"";
+      position:absolute;
+      left:-60%;
+      top:0;
+      width: 60%;
+      height:100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent);
+      opacity:.35;
+      transform: translateX(0);
+      transition: transform .6s ease;
+      pointer-events:none;
     }
-
-    .footer{
-      margin-top: 18px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      color: var(--aw-color-text-muted);
-      font-size: 12px;
-      letter-spacing: .14em;
-      text-transform: uppercase;
+    .vcard:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.22);
+      background: rgba(255,255,255,.06);
     }
-
-    .dot{
-      width:8px; height:8px;
-      background: var(--aw-color-primary);
-      border-radius:999px;
-      box-shadow: 0 0 12px color-mix(in oklab, var(--aw-color-primary) 55%, transparent);
+    .vcard:hover::after{ transform: translateX(260%); }
+    .vcard .dot{
+      width:6px; height:6px; border-radius:999px;
+      background: rgba(245,124,0,.85);
+      box-shadow: 0 0 10px rgba(245,124,0,.35);
     }
+    .linkInline .u1{
+      position:absolute;
+      left:0;
+      bottom:-3px;
+      height:1px;
+      width:0;
+      background: rgba(255,255,255,.40);
+      transition: width 900ms ease-out;
+    }
+    .linkInline .u2{
+      position:absolute;
+      left:0;
+      bottom:-3px;
+      height:1px;
+      width:100%;
+      opacity:0;
+      background: rgba(245,124,0,.65);
+      transition: opacity 200ms ease;
+      transition-delay: 0s;
+    }
+    .linkInline:hover .u1{ width:100%; }
+    .linkInline:hover .u2{ opacity:1; transition-delay: 900ms; }
 
-    @media (min-width: 560px){
-      .grid{
-        grid-template-columns: 1fr 1fr;
-      }
-      .row.full{
-        grid-column: 1 / -1;
-      }
+    .scs{position:absolute; right:22px; top:20px; width:44px; opacity:.75;}
+
+    .twLine{position:relative; display:inline-block; overflow:hidden; white-space:nowrap;}
+    .twText::after{content:""; display:inline-block; margin-left:2px; height:1em; border-right:2px solid rgba(245,124,0,.65); transform:translateY(0.08em); opacity:0;}
+    .twTyping .twText::after{opacity:1; animation:caretBlink 0.95s step-end infinite;}
+    @keyframes caretBlink{50%{border-color:transparent;}}
+
+    @media(max-width:900px){
+      .layout{grid-template-columns:1fr;}
+      .photo{width:100%; height:280px;}
+      .row{grid-template-columns:1fr;}
+      .value{text-align:left;}
     }
   </style>
 </head>
 <body>
-  <main class="card" aria-label="Private Visitenkarte">
-    <div class="badge">
-      <span class="dot" aria-hidden="true"></span>
-      <span>Private Card</span>
-    </div>
+  <main class="plate">
+    <span class="scanline" aria-hidden="true"></span>
+    <img class="scs" src="storage/logo/SCS_Logo_lightWhite_1mm-120x120.png" alt="SCS" />
+    <div class="ring" aria-hidden="true"></div>
 
-    <h1 class="name">Vorname Nachname</h1>
-    <p class="role">Rolle / Position</p>
+    <div class="layout">
+      <div class="photo">
+        <img src="storage/imgs/Signature-Benjamin.jpg" alt="Portrait of Dr.-Ing. Benjamin Spieß" />
+      </div>
 
-    <section class="grid" aria-label="Kontakt">
-      <div class="row">
-        <span class="label">Telefon</span>
-        <span class="value"><a href="tel:+49XXXXXXXXXX">+49 XX XXX XX</a></span>
-      </div>
-      <div class="row">
-        <span class="label">Email</span>
-        <span class="value"><a href="mailto:hello@example.com">hello@example.com</a></span>
-      </div>
-      <div class="row full">
-        <span class="label">Web</span>
-        <span class="value"><a href="https://example.com" rel="noopener">example.com</a></span>
-      </div>
-      <div class="row full">
-        <span class="label">Adresse</span>
-        <span class="value">Strasse 1, 12345 Stadt</span>
-      </div>
-    </section>
+      <div>
+        <p class="degree"><span id="degreeLine" class="twLine"><span id="twDegree" class="twText" data-text="Dr.-Ing."></span></span></p>
+        <div class="name"><span id="nameLine" class="twLine"><span id="twName" class="twText" data-text="Benjamin Spieß"></span></span></div>
+        <div class="role">Founder / Lead Domain Office</div>
+        <div class="meta">Weiden in der Oberpfalz · Remote</div>
+        <div class="focus">Digital Enablement · Strategy · Delivery</div>
 
-    <div class="footer">
-      <span>Private Access</span>
-      <span>SCS</span>
+        <div class="rows">
+          <div class="row">
+            <span class="label">Telefon</span>
+            <span class="value">
+              <a class="linkInline" href="tel:+4917623764654">
+                +49 17623764654
+                <span class="u1" aria-hidden="true"></span>
+                <span class="u2" aria-hidden="true"></span>
+              </a>
+            </span>
+          </div>
+          <div class="row">
+            <span class="label">Email</span>
+            <span class="value">
+              <a class="linkInline" href="mailto:work@benjamin-spiess.de">
+                work@benjamin-spiess.de
+                <span class="u1" aria-hidden="true"></span>
+                <span class="u2" aria-hidden="true"></span>
+              </a>
+            </span>
+          </div>
+          <div class="row">
+            <span class="label">Web</span>
+            <span class="value">
+              <a class="linkInline" href="https://spiess-consulting-solutions.de">
+                spiess-consulting-solutions.de
+                <span class="u1" aria-hidden="true"></span>
+                <span class="u2" aria-hidden="true"></span>
+              </a>
+            </span>
+          </div>
+        </div>
+        <a class="vcard" href="storage/vcard/benjamin-spiess.vcf" download>
+          <span class="dot" aria-hidden="true"></span>
+          vCard
+        </a>
+      </div>
     </div>
   </main>
+
+  <script>
+    (function(){
+      const el = {
+        degreeLine: document.getElementById("degreeLine"),
+        nameLine: document.getElementById("nameLine"),
+        degreeText: document.getElementById("twDegree"),
+        nameText: document.getElementById("twName"),
+      };
+      function setTyping(lineEl, on){ if(on) lineEl.classList.add("twTyping"); else lineEl.classList.remove("twTyping"); }
+      function typeOnce(textEl, lineEl, text, opts){
+        const o = Object.assign({ startDelay:0, charDelay:28, endDelay:140 }, opts||{});
+        return new Promise((resolve)=>{
+          if(!textEl || !lineEl) return resolve();
+          let i = 0; textEl.textContent = ""; setTyping(lineEl, true);
+          function tick(){ i++; textEl.textContent = text.slice(0,i); if(i<text.length) setTimeout(tick,o.charDelay); else setTimeout(()=>{ setTyping(lineEl,false); resolve(); }, o.endDelay); }
+          setTimeout(tick, o.startDelay);
+        });
+      }
+      (async function run(){
+        const TEXT = {
+          degree: el.degreeText?.getAttribute("data-text") || "Dr.-Ing.",
+          name: el.nameText?.getAttribute("data-text") || "Benjamin Spieß",
+        role: "Founder / Lead Domain Office",
+      };
+        await typeOnce(el.degreeText, el.degreeLine, TEXT.degree, { charDelay: 32, endDelay: 80 });
+        await typeOnce(el.nameText, el.nameLine, TEXT.name, { startDelay: 60, charDelay: 32, endDelay: 120 });
+        if(el.roleText && el.roleLine){
+          await typeOnce(el.roleText, el.roleLine, TEXT.role, { startDelay: 80, charDelay: 18, endDelay: 120 });
+        }
+      })();
+    })();
+  </script>
 </body>
 </html>
