@@ -267,15 +267,28 @@
     @keyframes caretBlink{50%{border-color:transparent;}}
 
     @media(max-width:900px){
+      body{
+        place-items:start;
+        padding: calc(32px + env(safe-area-inset-top)) 16px calc(24px + env(safe-area-inset-bottom));
+      }
+      .plate{
+        padding: 18px;
+      }
       .layout{grid-template-columns:1fr;}
-      .photo{width:100%; height:220px;}
-      .row{grid-template-columns:1fr;}
+      .photo{width:100%; height:180px;}
+      .row{grid-template-columns:1fr; gap:6px; padding:4px 0;}
       .value{text-align:left;}
+      .label{font-size:9px; letter-spacing:.24em;}
+      .name{font-size:clamp(1.4rem,6vw,2.0rem);}
+      .role{font-size:.72rem;}
+      .meta{font-size:11px;}
+      .focus{font-size:12px;}
+      .actionsRow{margin-top: 10px;}
       .scs{
         top:auto;
-        bottom:18px;
-        right:18px;
-        width:36px;
+        bottom:14px;
+        right:14px;
+        width:32px;
       }
       .photo img{
         object-position: center 20%;
