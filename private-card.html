@@ -11,8 +11,29 @@
   <style>
     :root{ --bg:#0D0D0D; --bg2:#0B0C0F; --text:#f0f2f5; --muted:rgba(240,242,245,.6); --border:rgba(255,255,255,.10); }
     *{box-sizing:border-box;} html,body{height:100%;}
-    body{margin:0; font-family:"Montserrat",system-ui; color:var(--text); background:linear-gradient(180deg,var(--bg),var(--bg2)); display:grid; place-items:center; padding:24px;}
-    .plate{width:min(820px,100%); border:1px solid var(--border); border-radius:20px; background:rgba(255,255,255,.02); padding:24px; position:relative; overflow:hidden;}
+    body{
+      margin:0;
+      font-family:"Montserrat",system-ui;
+      color:var(--text);
+      background:
+        radial-gradient(900px 520px at 35% -10%, rgba(255,255,255,.04), transparent 60%),
+        radial-gradient(980px 520px at 70% 0%, rgba(255,255,255,.03), transparent 62%),
+        linear-gradient(180deg,var(--bg),var(--bg2));
+      display:grid;
+      place-items:center;
+      padding:24px;
+    }
+    body::before{
+      content:"";
+      position:fixed; inset:0;
+      pointer-events:none;
+      background:
+        linear-gradient(to right, rgba(255,255,255,.04) 1px, transparent 1px) 0 0 / 72px 72px,
+        linear-gradient(to bottom, rgba(255,255,255,.04) 1px, transparent 1px) 0 0 / 72px 72px;
+      opacity:.35;
+      mask-image: radial-gradient(900px 520px at 50% 14%, rgba(0,0,0,.92), transparent 72%);
+    }
+    .plate{width:min(780px,100%); border:1px solid var(--border); border-radius:20px; background:rgba(255,255,255,.02); padding:24px; position:relative; overflow:hidden;}
     .plate::before{content:""; position:absolute; inset:-20% auto auto -10%; width:60%; height:240px; background:radial-gradient(circle at 40% 40%, rgba(255,255,255,.06), transparent 70%); opacity:.5;}
     .scanline{
       position:absolute;
@@ -31,16 +52,23 @@
       45%{ opacity: 0.22; }
       100%{ transform: translateX(260%); opacity: 0.08; }
     }
-    .ring{position:absolute; right:-80px; bottom:-80px; width:220px; height:220px; border-radius:999px; border:1px solid rgba(255,255,255,.14); animation: ringPulse 4.8s ease-in-out infinite; box-shadow: 0 0 20px rgba(255,255,255,0.08);} 
-    .ring::after{content:""; position:absolute; inset:20px; border-radius:999px; border:1px dashed rgba(255,255,255,.10);} 
+    .ring{position:absolute; right:-70px; bottom:-70px; width:220px; height:220px; border-radius:999px; border:1px solid rgba(255,255,255,.10); animation: ringPulse 5.6s ease-in-out infinite; box-shadow: 0 0 18px rgba(255,255,255,0.06);} 
+    .ring::after{content:""; position:absolute; inset:18px; border-radius:999px; border:1px dashed rgba(255,255,255,.12);} 
     @keyframes ringPulse{
-      0%,100%{transform:scale(1); opacity:.55;}
-      50%{transform:scale(1.06); opacity:1;}
+      0%,100%{transform:scale(1); opacity:.5;}
+      50%{transform:scale(1.04); opacity:.85;}
     }
 
     .layout{display:grid; grid-template-columns: 240px 1fr; gap:22px; align-items:center; position:relative; z-index:2;}
-    .photo{width:220px; height:220px; border-radius:22px; overflow:hidden; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.02);} 
-    .photo img{width:100%; height:100%; object-fit:cover; object-position: center 35%; filter:contrast(1.05) grayscale(6%);} 
+    .photo{width:220px; height:220px; border-radius:22px; overflow:hidden; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.02); position:relative;} 
+    .photo::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.04), inset 0 -20px 40px rgba(0,0,0,.35);
+      pointer-events:none;
+    }
+    .photo img{width:100%; height:100%; object-fit:cover; object-position: center 25%; filter:contrast(1.05) grayscale(6%);} 
 
     .degree{font-size:11px; letter-spacing:.26em; text-transform:uppercase; color:var(--muted); margin:0;}
     .name{margin:6px 0 0; font-size:clamp(1.7rem,4.2vw,2.6rem); font-weight:300;}
@@ -51,16 +79,21 @@
     .rows{margin-top:16px; display:grid; gap:10px;} 
     .row{display:grid; grid-template-columns: 120px minmax(0,1fr); gap:10px; align-items:center; padding:6px 0; border-bottom:1px solid rgba(255,255,255,.06);} 
     .row:last-child{border-bottom:none;} 
-    .label{font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--muted);} 
-    .value{text-align:right; font-size:14px; letter-spacing:-.01em;} 
+    .label{font-size:10px; letter-spacing:.26em; text-transform:uppercase; color:rgba(240,242,245,.48);} 
+    .value{text-align:right; font-size:15px; letter-spacing:-.01em;} 
     .linkInline{
       position:relative;
       display:inline-block;
       color:var(--text);
       text-decoration:none;
     }
-    .vcard{
+    .actionsRow{
+      display:flex;
+      align-items:center;
+      gap:10px;
       margin-top: 14px;
+    }
+    .vcard{
       display:inline-flex;
       align-items:center;
       gap:10px;
@@ -96,10 +129,103 @@
       background: rgba(255,255,255,.06);
     }
     .vcard:hover::after{ transform: translateX(260%); }
-    .vcard .dot{
+    .vcard .dot,
+    .qrBtn .dot{
       width:6px; height:6px; border-radius:999px;
       background: rgba(245,124,0,.85);
       box-shadow: 0 0 10px rgba(245,124,0,.35);
+    }
+    .qrBtn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      text-decoration:none;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 11px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      cursor: pointer;
+      position:relative;
+      overflow:hidden;
+      transition: border-color .18s ease, background .18s ease, transform .18s ease;
+    }
+    .qrBtn::after{
+      content:"";
+      position:absolute;
+      left:-60%;
+      top:0;
+      width: 60%;
+      height:100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent);
+      opacity:.35;
+      transform: translateX(0);
+      transition: transform .6s ease;
+      pointer-events:none;
+    }
+    .qrBtn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.22);
+      background: rgba(255,255,255,.06);
+    }
+    .qrBtn:hover::after{ transform: translateX(260%); }
+
+    .modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      place-items:center;
+      background: rgba(0,0,0,.45);
+      backdrop-filter: blur(4px);
+      z-index: 20;
+    }
+    .modal.is-open{ display:grid; }
+    .modalCard{
+      width:min(360px, 92vw);
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(20,20,20,.9);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 24px 60px rgba(0,0,0,.45);
+    }
+    .modalHead{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom: 12px;
+    }
+    .modalTitle{
+      font-size:11px;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      color: var(--muted);
+    }
+    .modalClose{
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.02);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 6px 8px;
+      cursor:pointer;
+    }
+    .qrImg{
+      width:100%;
+      height:auto;
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,.10);
+      display:block;
+      background: rgba(0,0,0,.2);
+    }
+    .qrNote{
+      margin-top:10px;
+      font-size:12px;
+      color: var(--muted);
+      text-align:center;
+      letter-spacing:.06em;
     }
     .linkInline .u1{
       position:absolute;
@@ -189,13 +315,30 @@
             </span>
           </div>
         </div>
-        <a class="vcard" href="storage/vcard/benjamin-spiess.vcf" download>
+        <div class="actionsRow">
+          <a class="vcard" href="storage/vcard/benjamin-spiess.vcf" download>
+            <span class="dot" aria-hidden="true"></span>
+            vCard
+          </a>
+        <button class="qrBtn" type="button" id="qrOpen">
           <span class="dot" aria-hidden="true"></span>
-          vCard
-        </a>
+          QR
+        </button>
+        </div>
       </div>
     </div>
   </main>
+
+  <div class="modal" id="qrModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modalCard">
+      <div class="modalHead">
+        <div class="modalTitle">QR Code</div>
+        <button class="modalClose" type="button" id="qrClose" aria-label="Close">×</button>
+      </div>
+      <img class="qrImg" src="storage/qr/private-card-qr.svg" alt="QR Code to private card" />
+      <div class="qrNote">Scan to open this card</div>
+    </div>
+  </div>
 
   <script>
     (function(){
@@ -227,6 +370,30 @@
           await typeOnce(el.roleText, el.roleLine, TEXT.role, { startDelay: 80, charDelay: 18, endDelay: 120 });
         }
       })();
+      const qrModal = document.getElementById("qrModal");
+      const qrOpen = document.getElementById("qrOpen");
+      const qrClose = document.getElementById("qrClose");
+
+      function openModal(){
+        if(!qrModal) return;
+        qrModal.classList.add("is-open");
+        qrModal.setAttribute("aria-hidden","false");
+      }
+      function closeModal(){
+        if(!qrModal) return;
+        qrModal.classList.remove("is-open");
+        qrModal.setAttribute("aria-hidden","true");
+      }
+      if(qrOpen) qrOpen.addEventListener("click", openModal);
+      if(qrClose) qrClose.addEventListener("click", closeModal);
+      if(qrModal){
+        qrModal.addEventListener("click", (e) => {
+          if(e.target === qrModal) closeModal();
+        });
+      }
+      window.addEventListener("keydown", (e) => {
+        if(e.key === "Escape") closeModal();
+      });
     })();
   </script>
 </body>
