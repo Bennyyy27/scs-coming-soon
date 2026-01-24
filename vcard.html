@@ -10,7 +10,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     :root{ --bg:#0D0D0D; --bg2:#0B0C0F; --text:#f0f2f5; --muted:rgba(240,242,245,.6); --border:rgba(255,255,255,.10); }
-    *{box-sizing:border-box;} html,body{height:100%;}
+    *{box-sizing:border-box;}
+    html,body{height:100%; width:100%; background: var(--bg);}
     body{
       margin:0;
       font-family:"Montserrat",system-ui;
@@ -21,8 +22,8 @@
         linear-gradient(180deg,var(--bg),var(--bg2));
       display:grid;
       place-items:center;
-      padding:24px;
-      padding-bottom: calc(24px + env(safe-area-inset-bottom));
+      min-height: 100svh;
+      padding: calc(16px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom));
     }
     body::before{
       content:"";
@@ -290,7 +291,7 @@
 
     <div class="layout">
       <div class="photo">
-        <img src="storage/imgs/Signature-Benjamin.jpg" alt="Portrait of Dr.-Ing. Benjamin Spieß" />
+        <img src="storage/imgs/vcard-profilepicture.jpg" alt="Portrait of Dr.-Ing. Benjamin Spieß" />
       </div>
 
       <div>
