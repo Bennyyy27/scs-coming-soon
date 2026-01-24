@@ -2,7 +2,7 @@
 <html lang="de" class="dark">
 <head>
   <meta charset="UTF-8" />
-  <title>Private Card — Orbit Plate</title>
+  <title>V-Card — Benjamin Spieß</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex, nofollow, noarchive" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -54,11 +54,11 @@
       45%{ opacity: 0.22; }
       100%{ transform: translateX(260%); opacity: 0.08; }
     }
-    .ring{position:absolute; right:-70px; bottom:-70px; width:220px; height:220px; border-radius:999px; border:1px solid rgba(255,255,255,.10); animation: ringPulse 5.6s ease-in-out infinite; box-shadow: 0 0 18px rgba(255,255,255,0.06);} 
+    .ring{position:absolute; right:-60px; bottom:-60px; width:220px; height:220px; border-radius:999px; border:1px solid rgba(255,255,255,.10); animation: ringPulse 6.0s ease-in-out infinite; box-shadow: 0 0 18px rgba(255,255,255,0.06);} 
     .ring::after{content:""; position:absolute; inset:18px; border-radius:999px; border:1px dashed rgba(255,255,255,.12);} 
     @keyframes ringPulse{
-      0%,100%{transform:scale(1); opacity:.5;}
-      50%{transform:scale(1.04); opacity:.85;}
+      0%,100%{transform:scale(1); opacity:.45;}
+      50%{transform:scale(1.05); opacity:.75;}
     }
 
     .layout{display:grid; grid-template-columns: 240px 1fr; gap:22px; align-items:center; position:relative; z-index:2;}
@@ -275,7 +275,7 @@
         padding: 18px;
       }
       .layout{grid-template-columns:1fr;}
-      .photo{width:100%; height:180px;}
+      .photo{width:92%; height:180px; margin-inline:auto;}
       .row{grid-template-columns:1fr; gap:6px; padding:4px 0;}
       .value{text-align:left;}
       .label{font-size:9px; letter-spacing:.24em;}
@@ -292,6 +292,15 @@
       }
       .photo img{
         object-position: center 20%;
+      }
+      .ring{
+        border-color: rgba(255,255,255,.16);
+        box-shadow: 0 0 22px rgba(255,255,255,0.10);
+        animation-duration: 4.8s;
+      }
+      @keyframes ringPulse{
+        0%,100%{transform:scale(1); opacity:.55;}
+        50%{transform:scale(1.08); opacity:.9;}
       }
     }
   </style>
