@@ -25,6 +25,9 @@
 
     *{ box-sizing:border-box; }
     html,body{ height:100%; }
+    html{
+      background: var(--bg);
+    }
 
     body{
       margin:0;
@@ -32,6 +35,7 @@
       font-weight:300;
       color: var(--fg);
       overflow-x:hidden;
+      min-height: 100svh;
       background:
         radial-gradient(1100px 620px at 50% -20%, rgba(255,255,255,0.06), transparent 62%),
         radial-gradient(900px 520px at 20% 85%, rgba(255,255,255,0.03), transparent 65%),
@@ -63,10 +67,10 @@
     .page{
       position:relative;
       z-index:1;
-      min-height:100vh;
+      min-height:100svh;
       display:grid;
       place-items:center;
-      padding: 36px 18px 52px;
+      padding: calc(36px + env(safe-area-inset-top)) 18px calc(52px + env(safe-area-inset-bottom));
     }
 
     .stack{
